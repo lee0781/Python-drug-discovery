@@ -728,11 +728,6 @@
       <div class="nav-label">Dry Run</div>
       <div class="nav-tag">Mon</div>
     </div>
-    <div class="nav-item" onclick="showPage('portfolio')" id="nav-portfolio">
-      <div class="nav-check" onclick="toggleDone(event,'portfolio')">✓</div>
-      <div class="nav-label">Portfolio Project</div>
-      <div class="nav-tag">Fri</div>
-    </div>
   </div>
 </div>
 
@@ -1489,73 +1484,6 @@ Outliers: 2  |  Clean: 6</div>
       </div>
     </div>
 
-    <!-- ══ PORTFOLIO ══ -->
-    <div class="page" id="page-portfolio">
-      <div class="page-badge">🚀 Portfolio Project</div>
-      <h1 class="page-title">numpy_assay_basics.py</h1>
-      <div class="page-meta">
-        <span class="meta-chip">⏱ 45–60 min</span>
-        <span class="meta-chip">📁 GitHub-ready</span>
-        <span class="meta-chip">💼 Interview-ready</span>
-      </div>
-
-      <div class="scenario"><div class="scenario-header">🔬 Research Scenario</div>Your lab is investigating whether a RAGE inhibitor can enhance the cytotoxic effects of a standard chemotherapy drug in a murine triple-negative breast cancer (TNBC) cell line. You ran a 96-hour cell viability assay on a 24-well plate. Your PI needs a clean analysis report showing control QC, per-treatment viability, and which conditions produced significant cytotoxic effects.</div>
-
-      <div class="callout yellow">
-        <strong>⚠️ Privacy note:</strong> This script is based on your actual lab work. When pushing to GitHub, keep specific drug names, exact concentrations, and unpublished data ranges general. The biology context and analysis structure are what matter for your portfolio.
-      </div>
-
-      <div class="callout">
-        <strong>What to build:</strong> A complete analysis pipeline with 6 sections — plate construction, summary, control QC, per-treatment stats, hit identification, and final summary. All from scratch, no blanks.
-      </div>
-
-      <h2>📋 Required Sections</h2>
-      <table>
-        <tr><th>Section</th><th>What it does</th><th>Key functions</th></tr>
-        <tr><td>1. Build plate</td><td>Simulate 24-well combination drug screen</td><td>np.random.normal(), np.vstack(), np.clip()</td></tr>
-        <tr><td>2. Summary</td><td>Plate dimensions, mean viability, SD</td><td>plate.shape, np.mean(), np.std()</td></tr>
-        <tr><td>3. Control QC</td><td>DMSO mean/SD/%CV — PASS or FAIL</td><td>plate[0, :], np.mean(), np.std()</td></tr>
-        <tr><td>4. Per-treatment</td><td>Per-row stats with treatment labels + flags</td><td>axis=1, for loop, elif</td></tr>
-        <tr><td>5. Hit ID</td><td>Wells below 50% viability — how many per row?</td><td>Boolean masking, np.sum()</td></tr>
-        <tr><td>6. Summary</td><td>Final report — QC status, hits, combo benefit</td><td>All of the above</td></tr>
-      </table>
-
-      <h2>🏷 Treatment Labels</h2>
-      <pre><code class="language-python">ROW_LABELS = ['A', 'B', 'C', 'D']
-treatments = ['DMSO ctrl',
-              'Chemo alone',
-              'Chemo + Inhibitor low',
-              'Chemo + Inhibitor high']</code></pre>
-
-      <h2>🚩 Flag Logic</h2>
-      <pre><code class="language-python">if mean_val > 85:
-    flag = "NEG CTRL"    # negative control — cells alive
-elif mean_val < 35:
-    flag = "HIT ✓"       # strong drug effect
-elif mean_val < 55:
-    flag = "MOD HIT"     # moderate effect
-else:
-    flag = "----"        # minimal effect</code></pre>
-
-      <h2>📦 GitHub Commit</h2>
-      <pre><code class="language-bash">git add numpy_assay_basics.py
-git commit -m "Stage 1 portfolio: combination drug screen viability analysis — TNBC cell line"
-git push origin main</code></pre>
-
-      <h3>✅ Before you push:</h3>
-      <ul>
-        <li>Script runs without errors</li>
-        <li>No specific unpublished drug names or exact concentrations in comments</li>
-        <li>You typed the code yourself</li>
-        <li>README.md has a general description of the analysis</li>
-        <li>Commit message is descriptive but not research-specific</li>
-      </ul>
-
-      <div class="portfolio-note">
-        <div class="portfolio-note-header">📁 Why this matters</div>
-        This portfolio project is built from real cancer biology research — real cell line, real assay type, real biological question. When a pharma recruiter or PI sees this on your GitHub, they see someone who can bridge wet lab expertise with computational analysis. That combination is rare and extremely valuable in drug discovery.
-      </div>
-    </div>
 
   </div><!-- end content-scroll -->
 </div><!-- end main -->
@@ -1565,7 +1493,7 @@ git push origin main</code></pre>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
 
 <script>
-const pages = ['overview','cheatsheet','day1','day2','day3','day4','day5','day6a','day6b','day6c','dryrun','portfolio'];
+const pages = ['overview','cheatsheet','day1','day2','day3','day4','day5','day6a','day6b','day6c','dryrun'];
 const titles = {
   overview: 'Course Roadmap',
   cheatsheet: 'Cheat Sheet',
@@ -1577,8 +1505,7 @@ const titles = {
   day6a: 'Day 6A — Basic Masking',
   day6b: 'Day 6B — & and |',
   day6c: 'Day 6C — np.abs() + ~',
-  dryrun: 'Dry Run',
-  portfolio: 'Portfolio Project'
+  dryrun: 'Dry Run'
 };
 
 let current = 'overview';
