@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Python for Drug Discovery — Youngwon's Course</title>
+<title>Python for Drug Discovery — Learning Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
 <style>
@@ -654,7 +654,7 @@
 <div id="sidebar">
   <div class="sidebar-header">
     <div class="sidebar-logo">🧬 Python for<br>Drug Discovery</div>
-    <div class="sidebar-sub">Youngwon's Learning Portal</div>
+    <div class="sidebar-sub">Drug Discovery Learning Portal</div>
   </div>
 
   <div class="progress-wrap">
@@ -754,10 +754,9 @@
       <div class="page-badge">🗺 Course Map</div>
       <h1 class="page-title">Python for Drug Discovery</h1>
       <div class="page-meta">
-        <span class="meta-chip">👤 Youngwon Lee</span>
-        <span class="meta-chip">🎓 M.S. Biochemistry — Georgetown</span>
-        <span class="meta-chip">🏥 Lombardi Cancer Center</span>
-        <span class="meta-chip">🎯 Pharma Data Scientist</span>
+        <span class="meta-chip">🎯 Pharmaceutical Data Science</span>
+        <span class="meta-chip">🧬 Drug Discovery</span>
+        <span class="meta-chip">🤖 Bio-AI</span>
       </div>
 
       <div class="callout">
@@ -1500,47 +1499,61 @@ Outliers: 2  |  Clean: 6</div>
         <span class="meta-chip">💼 Interview-ready</span>
       </div>
 
-      <div class="scenario"><div class="scenario-header">🔬 Lombardi Cancer Center Scenario</div>You are a data scientist supporting a palbociclib resistance study at Georgetown Lombardi Cancer Center. Your lab ran a 96-well CellTiter-Glo viability screen on MCF-7 breast cancer cells treated with an EGFR inhibitor at 6 concentrations. Analyze the plate and write code that produces a report the PI could present at lab meeting.</div>
+      <div class="scenario"><div class="scenario-header">🔬 Research Scenario</div>Your lab is investigating whether a RAGE inhibitor can enhance the cytotoxic effects of a standard chemotherapy drug in a murine triple-negative breast cancer (TNBC) cell line. You ran a 96-hour cell viability assay on a 24-well plate. Your PI needs a clean analysis report showing control QC, per-treatment viability, and which conditions produced significant cytotoxic effects.</div>
+
+      <div class="callout yellow">
+        <strong>⚠️ Privacy note:</strong> This script is based on your actual lab work. When pushing to GitHub, keep specific drug names, exact concentrations, and unpublished data ranges general. The biology context and analysis structure are what matter for your portfolio.
+      </div>
 
       <div class="callout">
-        <strong>What to build:</strong> A complete analysis pipeline with 7 sections — plate construction, summary, control QC, row-by-row stats, outlier detection, hit identification, and final summary. All from scratch, no blanks.
+        <strong>What to build:</strong> A complete analysis pipeline with 6 sections — plate construction, summary, control QC, per-treatment stats, hit identification, and final summary. All from scratch, no blanks.
       </div>
 
       <h2>📋 Required Sections</h2>
       <table>
         <tr><th>Section</th><th>What it does</th><th>Key functions</th></tr>
-        <tr><td>1. Build plate</td><td>Simulate 96-well EGFR inhibitor screen</td><td>np.random.normal(), np.vstack(), np.clip()</td></tr>
-        <tr><td>2. Summary</td><td>Plate dimensions, mean, SD</td><td>plate.shape, np.mean(), np.std()</td></tr>
-        <tr><td>3. Control QC</td><td>DMSO mean/SD/%CV, PASS/FAIL</td><td>plate[0:2,:].flatten()</td></tr>
-        <tr><td>4. Row-by-row</td><td>Per-row stats with concentration labels</td><td>axis=1, for loop, elif</td></tr>
-        <tr><td>5. Outliers</td><td>Z-score flagging (optional for now)</td><td>np.abs(), np.where()</td></tr>
-        <tr><td>6. Hits</td><td>Wells below 30% viability</td><td>Boolean masking, np.where()</td></tr>
-        <tr><td>7. Summary</td><td>Final clean report block</td><td>All of the above</td></tr>
+        <tr><td>1. Build plate</td><td>Simulate 24-well combination drug screen</td><td>np.random.normal(), np.vstack(), np.clip()</td></tr>
+        <tr><td>2. Summary</td><td>Plate dimensions, mean viability, SD</td><td>plate.shape, np.mean(), np.std()</td></tr>
+        <tr><td>3. Control QC</td><td>DMSO mean/SD/%CV — PASS or FAIL</td><td>plate[0, :], np.mean(), np.std()</td></tr>
+        <tr><td>4. Per-treatment</td><td>Per-row stats with treatment labels + flags</td><td>axis=1, for loop, elif</td></tr>
+        <tr><td>5. Hit ID</td><td>Wells below 50% viability — how many per row?</td><td>Boolean masking, np.sum()</td></tr>
+        <tr><td>6. Summary</td><td>Final report — QC status, hits, combo benefit</td><td>All of the above</td></tr>
       </table>
 
-      <h2>📦 GitHub Commit Checklist</h2>
-      <pre><code class="language-bash">mkdir week1
-cp numpy_assay_basics.py week1/
-cp day1_arrays.py        week1/
-cp day2_statistics.py    week1/
-# ... add all daily files
+      <h2>🏷 Treatment Labels</h2>
+      <pre><code class="language-python">ROW_LABELS = ['A', 'B', 'C', 'D']
+treatments = ['DMSO ctrl',
+              'Chemo alone',
+              'Chemo + Inhibitor low',
+              'Chemo + Inhibitor high']</code></pre>
 
-git add .
-git commit -m "Stage 1 complete: NumPy plate analysis pipeline"
+      <h2>🚩 Flag Logic</h2>
+      <pre><code class="language-python">if mean_val > 85:
+    flag = "NEG CTRL"    # negative control — cells alive
+elif mean_val < 35:
+    flag = "HIT ✓"       # strong drug effect
+elif mean_val < 55:
+    flag = "MOD HIT"     # moderate effect
+else:
+    flag = "----"        # minimal effect</code></pre>
+
+      <h2>📦 GitHub Commit</h2>
+      <pre><code class="language-bash">git add numpy_assay_basics.py
+git commit -m "Stage 1 portfolio: combination drug screen viability analysis — TNBC cell line"
 git push origin main</code></pre>
 
       <h3>✅ Before you push:</h3>
       <ul>
         <li>Script runs without errors</li>
-        <li>Output matches expected structure</li>
+        <li>No specific unpublished drug names or exact concentrations in comments</li>
         <li>You typed the code yourself</li>
-        <li>README.md exists with a short description</li>
-        <li>Commit message is descriptive</li>
+        <li>README.md has a general description of the analysis</li>
+        <li>Commit message is descriptive but not research-specific</li>
       </ul>
 
       <div class="portfolio-note">
         <div class="portfolio-note-header">📁 Why this matters</div>
-        A GitHub portfolio project with real pharma context — Lombardi Cancer Center, MCF-7 cells, EGFR inhibitor, CellTiter-Glo — is what separates a data science candidate from hundreds of generic Python bootcamp graduates. This is your first proof of domain expertise + coding ability combined.
+        This portfolio project is built from real cancer biology research — real cell line, real assay type, real biological question. When a pharma recruiter or PI sees this on your GitHub, they see someone who can bridge wet lab expertise with computational analysis. That combination is rare and extremely valuable in drug discovery.
       </div>
     </div>
 
@@ -1569,7 +1582,7 @@ const titles = {
 };
 
 let current = 'overview';
-let done = JSON.parse(sessionStorage.getItem('done') || '{}');
+let done = JSON.parse(localStorage.getItem('youngwon_course_progress') || '{}');
 
 function showPage(id) {
   document.getElementById('page-' + current).classList.remove('active');
@@ -1595,13 +1608,13 @@ function navPrev() {
 function toggleDone(e, id) {
   e.stopPropagation();
   done[id] = !done[id];
-  sessionStorage.setItem('done', JSON.stringify(done));
+  localStorage.setItem('youngwon_course_progress', JSON.stringify(done));
   updateAll();
 }
 
 function markCurrentDone() {
   done[current] = !done[current];
-  sessionStorage.setItem('done', JSON.stringify(done));
+  localStorage.setItem('youngwon_course_progress', JSON.stringify(done));
   updateAll();
 }
 
