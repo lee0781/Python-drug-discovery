@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python for Drug Discovery — Youngwon's Course</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --bg2: #0f1520;
+    --bg3: #141c2e;
+    --surface: #1a2340;
+    --surface2: #1f2a4a;
+    --border: #2a3a5c;
+    --teal: #00d4aa;
+    --teal-dim: #00a884;
+    --blue: #4d9fff;
+    --purple: #9d7fff;
+    --yellow: #ffd166;
+    --red: #ff6b6b;
+    --green: #06d6a0;
+    --text: #e2e8f8;
+    --text-dim: #8a9bc4;
+    --text-faint: #4a5a7a;
+    --sidebar-w: 280px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    overflow: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .sidebar-header {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--teal);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .sidebar-sub {
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--blue));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* Nav */
+  .nav-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 0;
+  }
+
+  .nav-scroll::-webkit-scrollbar { width: 4px; }
+  .nav-scroll::-webkit-scrollbar-track { background: transparent; }
+  .nav-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .nav-section {
+    padding: 8px 20px 4px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .nav-item:hover {
+    background: var(--surface);
+    color: var(--text);
+    border-left-color: var(--border);
+  }
+
+  .nav-item.active {
+    background: var(--surface2);
+    color: var(--teal);
+    border-left-color: var(--teal);
+  }
+
+  .nav-item.done .nav-check { color: var(--green); }
+
+  .nav-check {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .nav-item.done .nav-check {
+    background: var(--green);
+    border-color: var(--green);
+    color: #000;
+  }
+
+  .nav-label { flex: 1; line-height: 1.3; }
+  .nav-tag {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: var(--surface);
+    color: var(--text-faint);
+  }
+  .nav-item.active .nav-tag { background: rgba(0,212,170,0.15); color: var(--teal); }
+
+  /* ── MAIN ── */
+  #main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Top bar */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 56px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    flex-shrink: 0;
+  }
+
+  .topbar-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .topbar-nav {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .btn-ghost {
+    background: var(--surface);
+    color: var(--text-dim);
+  }
+  .btn-ghost:hover { background: var(--surface2); color: var(--text); }
+
+  .btn-primary {
+    background: var(--teal);
+    color: #000;
+    font-weight: 600;
+  }
+  .btn-primary:hover { background: var(--teal-dim); }
+
+  .mark-done-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .mark-done-btn:hover { border-color: var(--green); color: var(--green); }
+  .mark-done-btn.done { background: rgba(6,214,160,0.15); border-color: var(--green); color: var(--green); }
+
+  /* Content */
+  .content-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px 48px;
+    max-width: 860px;
+  }
+
+  .content-scroll::-webkit-scrollbar { width: 6px; }
+  .content-scroll::-webkit-scrollbar-track { background: transparent; }
+  .content-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* Page content styles */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .page-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: rgba(0,212,170,0.1);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .page-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .page-meta {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 32px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .meta-chip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 32px 0;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--text);
+    margin-bottom: 12px;
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2:first-child { margin-top: 0; }
+
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 10px;
+    margin-top: 24px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+
+  strong { color: var(--text); font-weight: 600; }
+
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--teal);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  .callout.yellow { border-left-color: var(--yellow); }
+  .callout.blue { border-left-color: var(--blue); }
+  .callout.red { border-left-color: var(--red); }
+  .callout.green { border-left-color: var(--green); }
+
+  .callout strong { color: var(--teal); }
+  .callout.yellow strong { color: var(--yellow); }
+  .callout.blue strong { color: var(--blue); }
+
+  /* Code blocks */
+  pre {
+    background: #0d1117 !important;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 16px 0;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  pre code {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+    padding: 20px 24px !important;
+    display: block;
+  }
+
+  code:not(pre code) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--surface);
+    color: var(--teal);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .ascii-box {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    color: #a9b7d6;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+
+  th {
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(42,58,92,0.5);
+    color: var(--text-dim);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(26,35,64,0.5); }
+
+  /* Cards */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .card-icon { font-size: 20px; margin-bottom: 8px; }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .card-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+
+  /* Stage roadmap */
+  .roadmap {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+  }
+
+  .roadmap-item {
+    display: flex;
+    gap: 16px;
+    position: relative;
+  }
+
+  .roadmap-item::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 32px;
+    bottom: -4px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .roadmap-item:last-child::before { display: none; }
+
+  .roadmap-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 4px;
+    background: var(--bg);
+    color: var(--text-faint);
+  }
+
+  .roadmap-dot.current {
+    border-color: var(--teal);
+    color: var(--teal);
+    background: rgba(0,212,170,0.1);
+  }
+
+  .roadmap-dot.done {
+    border-color: var(--green);
+    background: var(--green);
+    color: #000;
+  }
+
+  .roadmap-content { padding-bottom: 24px; }
+  .roadmap-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .roadmap-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+  .roadmap-milestone {
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Challenge box */
+  .challenge {
+    background: rgba(77,159,255,0.05);
+    border: 1px solid rgba(77,159,255,0.2);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+  }
+
+  .challenge-header {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Output box */
+  .output {
+    background: #050810;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #7cfc00;
+    line-height: 1.6;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  /* Mistakes table */
+  .mistakes td:first-child { color: var(--red); font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .mistakes td:nth-child(2) { color: var(--yellow); }
+  .mistakes td:last-child { color: var(--green); }
+
+  /* Portfolio note */
+  .portfolio-note {
+    background: rgba(157,127,255,0.08);
+    border: 1px solid rgba(157,127,255,0.2);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .portfolio-note-header {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 8px;
+  }
+
+  /* Cheat sheet */
+  .cheat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+
+  .cheat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .cheat-card h4 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+
+  .cheat-card pre {
+    margin: 0;
+    border: none;
+    background: rgba(0,0,0,0.3) !important;
+  }
+
+  .cheat-card pre code {
+    font-size: 11px !important;
+    padding: 10px 12px !important;
+  }
+
+  /* Scenario box */
+  .scenario {
+    background: rgba(255,209,102,0.05);
+    border: 1px solid rgba(255,209,102,0.2);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .scenario-header {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 8px;
+    font-style: normal;
+  }
+
+  ul, ol {
+    padding-left: 20px;
+    margin: 10px 0;
+  }
+
+  li {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 4px;
+  }
+
+  li strong { color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<div id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">🧬 Python for<br>Drug Discovery</div>
+    <div class="sidebar-sub">Youngwon's Learning Portal</div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Stage 1 Progress</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="nav-scroll">
+    <div class="nav-section">Overview</div>
+    <div class="nav-item active" onclick="showPage('overview')" id="nav-overview">
+      <div class="nav-check" onclick="toggleDone(event,'overview')">✓</div>
+      <div class="nav-label">Course Roadmap</div>
+      <div class="nav-tag">Map</div>
+    </div>
+    <div class="nav-item" onclick="showPage('cheatsheet')" id="nav-cheatsheet">
+      <div class="nav-check" onclick="toggleDone(event,'cheatsheet')">✓</div>
+      <div class="nav-label">Cheat Sheet</div>
+      <div class="nav-tag">Ref</div>
+    </div>
+
+    <div class="nav-section">Stage 1 — NumPy</div>
+    <div class="nav-item" onclick="showPage('day1')" id="nav-day1">
+      <div class="nav-check" onclick="toggleDone(event,'day1')">✓</div>
+      <div class="nav-label">Day 1 — Arrays</div>
+      <div class="nav-tag">Mon</div>
+    </div>
+    <div class="nav-item" onclick="showPage('day2')" id="nav-day2">
+      <div class="nav-check" onclick="toggleDone(event,'day2')">✓</div>
+      <div class="nav-label">Day 2 — Mean, SD, %CV</div>
+      <div class="nav-tag">Tue</div>
+    </div>
+    <div class="nav-item" onclick="showPage('day3')" id="nav-day3">
+      <div class="nav-check" onclick="toggleDone(event,'day3')">✓</div>
+      <div class="nav-label">Day 3 — 2D Arrays</div>
+      <div class="nav-tag">Wed</div>
+    </div>
+    <div class="nav-item" onclick="showPage('day4')" id="nav-day4">
+      <div class="nav-check" onclick="toggleDone(event,'day4')">✓</div>
+      <div class="nav-label">Day 4 — Slicing</div>
+      <div class="nav-tag">Thu</div>
+    </div>
+    <div class="nav-item" onclick="showPage('day5')" id="nav-day5">
+      <div class="nav-check" onclick="toggleDone(event,'day5')">✓</div>
+      <div class="nav-label">Day 5 — axis + for loops</div>
+      <div class="nav-tag">Mon</div>
+    </div>
+    <div class="nav-item" onclick="showPage('day6a')" id="nav-day6a">
+      <div class="nav-check" onclick="toggleDone(event,'day6a')">✓</div>
+      <div class="nav-label">Day 6A — Basic Masking</div>
+      <div class="nav-tag">Wed</div>
+    </div>
+    <div class="nav-item" onclick="showPage('day6b')" id="nav-day6b">
+      <div class="nav-check" onclick="toggleDone(event,'day6b')">✓</div>
+      <div class="nav-label">Day 6B — & and |</div>
+      <div class="nav-tag">Thu</div>
+    </div>
+    <div class="nav-item" onclick="showPage('day6c')" id="nav-day6c">
+      <div class="nav-check" onclick="toggleDone(event,'day6c')">✓</div>
+      <div class="nav-label">Day 6C — np.abs() + ~</div>
+      <div class="nav-tag">Fri</div>
+    </div>
+
+    <div class="nav-section">Projects</div>
+    <div class="nav-item" onclick="showPage('dryrun')" id="nav-dryrun">
+      <div class="nav-check" onclick="toggleDone(event,'dryrun')">✓</div>
+      <div class="nav-label">Dry Run</div>
+      <div class="nav-tag">Mon</div>
+    </div>
+    <div class="nav-item" onclick="showPage('portfolio')" id="nav-portfolio">
+      <div class="nav-check" onclick="toggleDone(event,'portfolio')">✓</div>
+      <div class="nav-label">Portfolio Project</div>
+      <div class="nav-tag">Fri</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div id="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbar-title">Course Roadmap</div>
+    <div class="topbar-nav">
+      <button class="btn btn-ghost" onclick="navPrev()">← Prev</button>
+      <button class="mark-done-btn" id="mark-done-btn" onclick="markCurrentDone()">Mark as Done</button>
+      <button class="btn btn-primary" onclick="navNext()">Next →</button>
+    </div>
+  </div>
+
+  <div class="content-scroll">
+
+    <!-- ══ OVERVIEW ══ -->
+    <div class="page active" id="page-overview">
+      <div class="page-badge">🗺 Course Map</div>
+      <h1 class="page-title">Python for Drug Discovery</h1>
+      <div class="page-meta">
+        <span class="meta-chip">👤 Youngwon Lee</span>
+        <span class="meta-chip">🎓 M.S. Biochemistry — Georgetown</span>
+        <span class="meta-chip">🏥 Lombardi Cancer Center</span>
+        <span class="meta-chip">🎯 Pharma Data Scientist</span>
+      </div>
+
+      <div class="callout">
+        <strong>Your mission:</strong> Go from zero Python to building real Bio-AI systems — protein folding, genomics, drug discovery. One concept at a time, confidence over speed.
+      </div>
+
+      <h2>📍 Your Current Position</h2>
+      <p>You are in <strong>Stage 1 — NumPy</strong>, working through Day 6 Boolean Masking. The dry run and portfolio project are your next milestones.</p>
+
+      <h2>🛣 Full Course Roadmap</h2>
+      <div class="roadmap">
+        <div class="roadmap-item">
+          <div class="roadmap-dot current">1</div>
+          <div class="roadmap-content">
+            <div class="roadmap-title">Stage 1 — NumPy Fundamentals ← You are here</div>
+            <div class="roadmap-desc">Arrays, statistics, 2D plates, slicing, for loops, Boolean masking. Everything anchored to plate reader data and cell viability assays.</div>
+            <div class="roadmap-milestone">🎯 Target: 6–8 weeks from start | Portfolio: numpy_assay_basics.py</div>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-dot">2</div>
+          <div class="roadmap-content">
+            <div class="roadmap-title">Stage 2 — Dose-Response Curves + IC50</div>
+            <div class="roadmap-desc">Plotting drug-response relationships, fitting curves, calculating IC50 values. Based on AstraZeneca osimertinib EGFR inhibitor data.</div>
+            <div class="roadmap-milestone">🎯 Target: 4–6 weeks after Stage 1 | Portfolio: dose_response_screen.py</div>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-dot">3</div>
+          <div class="roadmap-content">
+            <div class="roadmap-title">Stage 3 — Pandas + HTS Data Tables</div>
+            <div class="roadmap-desc">DataFrames, CSV pipelines, QC filtering, outlier detection on real HTS datasets. AbbVie venetoclax BCL-2 inhibitor screen.</div>
+            <div class="roadmap-milestone">🎯 Target: 4–6 weeks after Stage 2 | Portfolio: hts_dataframe_analysis.py</div>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-dot">4</div>
+          <div class="roadmap-content">
+            <div class="roadmap-title">Stage 4 — SciPy + CRISPR Analysis</div>
+            <div class="roadmap-desc">4-parameter logistic curve fitting, CRISPR dropout screens, volcano plots. Broad Institute methodology.</div>
+            <div class="roadmap-milestone">🎯 Target: 4–6 weeks after Stage 3 | Portfolio: crispr_screen_analysis.py</div>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-dot">5</div>
+          <div class="roadmap-content">
+            <div class="roadmap-title">Stage 5 — Machine Learning (scikit-learn)</div>
+            <div class="roadmap-desc">Drug sensitivity prediction, ML on cancer cell line panels, intro to AI-powered drug discovery.</div>
+            <div class="roadmap-milestone">🎯 Target: 6–8 weeks after Stage 4 | Portfolio: drug_sensitivity_predictor.py</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>📅 Weekly Schedule</h2>
+      <div class="cards">
+        <div class="card"><div class="card-icon">📘</div><div class="card-title">Monday</div><div class="card-desc">1 new concept + mini challenge</div></div>
+        <div class="card"><div class="card-icon">📗</div><div class="card-title">Tuesday</div><div class="card-desc">1 new concept + mini challenge</div></div>
+        <div class="card"><div class="card-icon">📙</div><div class="card-title">Wednesday</div><div class="card-desc">1 new concept + mini challenge</div></div>
+        <div class="card"><div class="card-icon">📕</div><div class="card-title">Thursday</div><div class="card-desc">1 new concept + mini challenge</div></div>
+        <div class="card"><div class="card-icon">🚀</div><div class="card-title">Friday</div><div class="card-desc">Project day — write from scratch, push to GitHub</div></div>
+      </div>
+
+      <h2>📏 Pacing Rules</h2>
+      <table>
+        <tr><th>Signal</th><th>What happens</th></tr>
+        <tr><td>Mini challenge: Easy</td><td>Move to next concept</td></tr>
+        <tr><td>Mini challenge: Medium</td><td>Move forward, note for review</td></tr>
+        <tr><td>Mini challenge: Hard</td><td>One more targeted exercise first</td></tr>
+        <tr><td>"I understand but can't do it myself"</td><td>From-scratch writing exercise, no starter code</td></tr>
+        <tr><td>Whole topic feels overwhelming</td><td>Split into A/B sessions, slow down</td></tr>
+      </table>
+    </div>
+
+    <!-- ══ CHEAT SHEET ══ -->
+    <div class="page" id="page-cheatsheet">
+      <div class="page-badge">📋 Reference</div>
+      <h1 class="page-title">Stage 1 Cheat Sheet</h1>
+      <p class="page-meta">Everything you've learned so far — in one place.</p>
+
+      <div class="cheat-grid">
+        <div class="cheat-card">
+          <h4>🔢 Creating Arrays</h4>
+          <pre><code class="language-python">import numpy as np
+np.set_printoptions(suppress=True)
+
+# 1D array
+data = np.array([98.2, 95.7, 12.3])
+
+# 2D array
+plate = np.array([[98.2, 95.7],
+                  [12.3, 11.8]])
+
+# Random arrays
+np.random.seed(42)
+row = np.random.uniform(90,100,size=(1,12))
+row = np.random.normal(98.5,1.8,size=(1,12))</code></pre>
+        </div>
+        <div class="cheat-card">
+          <h4>📐 Array Properties</h4>
+          <pre><code class="language-python">plate.shape    # (8, 12) — rows × cols
+plate.size     # 96 — total elements
+plate.dtype    # float64
+
+# shape indexing
+plate.shape[0] # 8 — number of rows
+plate.shape[1] # 12 — number of cols</code></pre>
+        </div>
+        <div class="cheat-card">
+          <h4>📊 Statistics</h4>
+          <pre><code class="language-python">np.mean(data)          # average
+np.std(data, ddof=1)   # sample SD
+np.min(data)           # minimum
+np.max(data)           # maximum
+np.sum(mask)           # count Trues
+np.abs(data)           # absolute value
+np.round(data, 1)      # round to 1dp</code></pre>
+        </div>
+        <div class="cheat-card">
+          <h4>🔪 Slicing</h4>
+          <pre><code class="language-python">plate[0, 0]    # single well
+plate[0, :]    # entire row 0
+plate[:, 0]    # entire col 0
+plate[0:2, :]  # rows 0 and 1
+plate.flatten()# 2D → 1D array</code></pre>
+        </div>
+        <div class="cheat-card">
+          <h4>📏 Axis</h4>
+          <pre><code class="language-python"># axis=1 → one value per ROW
+np.mean(plate, axis=1)  # shape (8,)
+
+# axis=0 → one value per COLUMN
+np.mean(plate, axis=0)  # shape (12,)</code></pre>
+        </div>
+        <div class="cheat-card">
+          <h4>🔁 For Loops</h4>
+          <pre><code class="language-python">for i in range(8):
+    val = row_means[i]
+    if val > 80:
+        flag = "PASS"
+    elif val < 15:
+        flag = "CTRL"
+    else:
+        flag = "----"
+    print(row_names[i], val, flag)</code></pre>
+        </div>
+        <div class="cheat-card">
+          <h4>🎭 Boolean Masking</h4>
+          <pre><code class="language-python">mask = wells < 30       # create mask
+hits = wells[mask]      # apply mask
+count = np.sum(mask)    # count Trues
+
+# Compound conditions
+m = (wells < 30) & (wells > 5)
+m = (wells > 90) | (wells < 5)
+
+# Invert
+clean = wells[~outlier_mask]</code></pre>
+        </div>
+        <div class="cheat-card">
+          <h4>🏗 Building Plates</h4>
+          <pre><code class="language-python">np.random.seed(42)
+dmso = np.random.uniform(92,100,(2,12))
+drug = np.random.uniform(10,85,(4,12))
+ctrl = np.random.uniform(1,6,(2,12))
+plate = np.vstack([dmso, drug, ctrl])
+plate = np.clip(plate, 0, 105)</code></pre>
+        </div>
+      </div>
+
+      <h2>⚠️ Rules to Never Forget</h2>
+      <table class="mistakes">
+        <tr><th>Rule</th><th>Why</th></tr>
+        <tr><td>Always ddof=1</td><td>Sample SD for experimental data — ddof=0 underestimates variability</td></tr>
+        <tr><td>Always np.random.seed()</td><td>Reproducible results — science requires this</td></tr>
+        <tr><td>Use & not 'and' for arrays</td><td>'and' crashes on arrays — always use & with parentheses</td></tr>
+        <tr><td>Indent after : every time</td><td>for, if, elif, else all require indented blocks</td></tr>
+        <tr><td>Use == not = for comparison</td><td>= assigns values, == compares them</td></tr>
+        <tr><td>np.abs() not abs()</td><td>abs() fails on arrays — always use np.abs()</td></tr>
+      </table>
+    </div>
+
+    <!-- ══ DAY 1 ══ -->
+    <div class="page" id="page-day1">
+      <div class="page-badge">📅 Day 1 — Monday</div>
+      <h1 class="page-title">Your First Array</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 30–40 min</span>
+        <span class="meta-chip">🆕 np.array(), .shape, .size, .dtype</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>Your lab measured cell survival after drug treatment. The numbers below are percent viability — 100% means all cells alive, 0% means all cells dead. You want to load this data into Python so you can analyze it.</div>
+
+      <h2>💡 The Concept</h2>
+      <p>A NumPy array is an ordered list of numbers you can do math on. Think of it as a single column from your plate reader export — but programmable.</p>
+
+      <div class="ascii-box">viability = [98.2,  95.7,  97.1,  12.3,  11.8,  13.1]
+               ↑      ↑      ↑      ↑      ↑      ↑
+             [0]    [1]    [2]    [3]    [4]    [5]
+            well1  well2  well3  well4  well5  well6
+
+Index starts at 0, not 1.  well1 = index 0,  well6 = index 5.</div>
+
+      <h3>💻 Code — day1_arrays.py</h3>
+      <pre><code class="language-python">import numpy as np
+np.set_printoptions(suppress=True)
+
+# 3 DMSO controls + 3 CDK4/6 inhibitor-treated wells
+viability_data = np.array([98.2, 95.7, 97.1, 12.3, 11.8, 13.1])
+
+print("Viability data:", viability_data)
+print("Shape:",  viability_data.shape)   # (6,) — 6 elements, 1D
+print("Size:",   viability_data.size)    # 6 — total elements
+print("Dtype:",  viability_data.dtype)   # float64 — decimal numbers
+
+# Indexing
+print(viability_data[0])   # 98.2 — first element
+print(viability_data[3])   # 12.3 — fourth element
+print(viability_data[-1])  # 13.1 — last element</code></pre>
+
+      <h3>✅ Expected Output</h3>
+      <div class="output">Viability data: [98.2 95.7 97.1 12.3 11.8 13.1]
+Shape: (6,)
+Size: 6
+Dtype: float64
+98.2
+12.3
+13.1</div>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <p>Predict what each line prints <strong>before running</strong>:</p>
+        <pre><code class="language-python">print(viability_data[1])
+print(viability_data[-2])
+print(viability_data.shape[0])</code></pre>
+        <p><strong>Answers:</strong> 95.7 — 11.8 — 6</p>
+      </div>
+
+      <h3>⚠️ Common Mistakes</h3>
+      <table class="mistakes">
+        <tr><th>Mistake</th><th>Error</th><th>Fix</th></tr>
+        <tr><td>np.Array([...])</td><td>AttributeError</td><td>Must be lowercase: np.array()</td></tr>
+        <tr><td>Forgetting import</td><td>NameError: 'np'</td><td>Always import numpy as np at top</td></tr>
+        <tr><td>print viability_data</td><td>SyntaxError</td><td>Use print() with parentheses</td></tr>
+      </table>
+
+      <div class="portfolio-note">
+        <div class="portfolio-note-header">📁 Portfolio Note</div>
+        Loading and inspecting plate reader data programmatically is Step 1 in any HTS pipeline. This replaces manual Excel scrolling with reproducible, auditable code — exactly what pharma DS roles require.
+      </div>
+    </div>
+
+    <!-- ══ DAY 2 ══ -->
+    <div class="page" id="page-day2">
+      <div class="page-badge">📅 Day 2 — Tuesday</div>
+      <h1 class="page-title">Mean, SD, and %CV</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 30–40 min</span>
+        <span class="meta-chip">🆕 np.mean(), np.std(), if/else</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>Your lab ran a CellTiter-Glo assay on MCF-7 breast cancer cells. You have triplicates for both your DMSO control and drug-treated group. Calculate QC statistics before reporting results.</div>
+
+      <h2>💡 The Concept</h2>
+      <p><strong>%CV = (Standard Deviation / Mean) × 100</strong></p>
+      <p>This is the core QC metric for every assay. Below 10% = acceptable for cell-based assays.</p>
+
+      <h3>💻 Code — day2_statistics.py</h3>
+      <pre><code class="language-python">import numpy as np
+np.set_printoptions(suppress=True)
+
+# MCF-7 breast cancer cells — CellTiter-Glo RLU values
+dmso_control = np.array([45320.0, 44870.0, 45110.0])
+drug_treated = np.array([8920.0,  9210.0,  8750.0])
+
+dmso_mean = np.mean(dmso_control)
+dmso_std  = np.std(dmso_control, ddof=1)  # ALWAYS ddof=1
+dmso_cv   = (dmso_std / dmso_mean) * 100
+
+drug_mean = np.mean(drug_treated)
+viability = (drug_mean / dmso_mean) * 100
+
+print(f"DMSO Mean: {dmso_mean:.1f}  SD: {dmso_std:.1f}  %CV: {dmso_cv:.2f}%")
+print(f"Viability: {viability:.1f}%")
+
+if dmso_cv < 10:
+    print("QC Status: PASS")
+else:
+    print("QC Status: FAIL — replate recommended")</code></pre>
+
+      <h3>✅ Expected Output</h3>
+      <div class="output">DMSO Mean: 45100.0  SD: 226.5  %CV: 0.50%
+Viability: 19.9%
+QC Status: PASS</div>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <p>Change DMSO to <code>[45320.0, 38200.0, 51100.0]</code> — does QC now say FAIL?</p>
+      </div>
+
+      <h3>⚠️ Common Mistakes</h3>
+      <table class="mistakes">
+        <tr><th>Mistake</th><th>Problem</th><th>Fix</th></tr>
+        <tr><td>np.std(data)</td><td>Population SD, not sample SD</td><td>Always add ddof=1</td></tr>
+        <tr><td>Missing indent after if:</td><td>IndentationError</td><td>Press Tab before the print line</td></tr>
+        <tr><td>f"Mean: dmso_mean"</td><td>Prints the word literally</td><td>Use curly braces: {dmso_mean}</td></tr>
+      </table>
+    </div>
+
+    <!-- ══ DAY 3 ══ -->
+    <div class="page" id="page-day3">
+      <div class="page-badge">📅 Day 3 — Wednesday</div>
+      <h1 class="page-title">2D Arrays + Building a Plate</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 35–45 min</span>
+        <span class="meta-chip">🆕 2D arrays, np.random.uniform(), np.vstack()</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>Your plate reader exports a full 96-well grid. You need to simulate this computationally — building separate blocks for controls and drug-treated rows, then combining them into one plate.</div>
+
+      <h2>💡 The Concept</h2>
+      <div class="ascii-box">         Col0   Col1   Col2  ...  Col11
+Row 0: [ 98.2,  95.7,  97.1, ..., 94.8 ]  ← Row A (DMSO)
+Row 1: [ 96.1,  97.4,  95.9, ..., 97.1 ]  ← Row B (DMSO)
+Row 2: [ 42.1,  38.7,  51.2, ..., 39.8 ]  ← Row C (Drug)
+...
+Row 7: [  3.1,   2.8,   4.2, ...,  2.9 ]  ← Row H (PosCtrl)
+
+Rows and columns both start at index 0.
+Row A = index 0.  Column 1 = index 0.</div>
+
+      <h3>💻 Code — day3_plate_2d.py</h3>
+      <pre><code class="language-python">import numpy as np
+np.set_printoptions(suppress=True)
+np.random.seed(42)
+
+# Build plate in blocks
+dmso_rows    = np.random.uniform(92, 100, size=(2, 12))
+drug_rows    = np.random.uniform(10, 85,  size=(4, 12))
+pos_ctrl     = np.random.uniform(1,  6,   size=(2, 12))
+
+# Stack vertically — all must have same column count
+plate = np.vstack([dmso_rows, drug_rows, pos_ctrl])
+plate = np.round(plate, 1)
+
+print("Plate shape:", plate.shape)   # (8, 12)
+print("Total wells:", plate.size)    # 96
+print(plate)</code></pre>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <p>What is <code>plate.shape[0]</code>? What is <code>plate.shape[1]</code>? What is <code>plate.size</code>?</p>
+        <p><strong>Answers:</strong> 8 — 12 — 96</p>
+      </div>
+    </div>
+
+    <!-- ══ DAY 4 ══ -->
+    <div class="page" id="page-day4">
+      <div class="page-badge">📅 Day 4 — Thursday</div>
+      <h1 class="page-title">Slicing: Accessing Wells, Rows, Columns</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 30–40 min</span>
+        <span class="meta-chip">🆕 plate[row, col], plate[0,:], plate[:,0]</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>From your full plate, you need to extract just the DMSO control rows for QC calculations, and just column 1 to check replicate consistency.</div>
+
+      <h2>💡 The Concept</h2>
+      <div class="ascii-box">plate = [[96.2, 97.4, 99.2, 94.6],   row 0
+         [97.3, 95.8, 98.1, 96.7],   row 1
+         [48.3, 62.1, 35.7, 55.4],   row 2
+         [41.2, 58.9, 29.8, 67.3]]   row 3
+          col0  col1  col2  col3
+
+plate[0, 2]   →  99.2    single well: row 0, col 2
+plate[0, :]   →  [96.2, 97.4, 99.2, 94.6]   entire row 0
+plate[:, 0]   →  [96.2, 97.3, 48.3, 41.2]   entire col 0
+plate[0:2, :] →  rows 0 and 1 only (stop index excluded)</div>
+
+      <h3>💻 Code — day4_slicing.py</h3>
+      <pre><code class="language-python">import numpy as np
+np.set_printoptions(suppress=True)
+np.random.seed(42)
+
+plate = np.vstack([
+    np.random.uniform(92, 100, size=(2, 12)),
+    np.random.uniform(10, 85,  size=(4, 12)),
+    np.random.uniform(1,  6,   size=(2, 12)),
+])
+plate = np.round(plate, 1)
+
+# Single well
+print("Well A1:",  plate[0, 0])
+print("Well H12:", plate[7, 11])
+
+# Entire rows
+print("Row A:", plate[0, :])
+print("Row G:", plate[6, :])
+
+# Entire column
+print("Column 1:", plate[:, 0])
+
+# Multiple rows (DMSO block)
+dmso = plate[0:2, :]
+print("DMSO rows shape:", dmso.shape)   # (2, 12)</code></pre>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <p>What does <code>plate[2:6, :].shape</code> return?</p>
+        <p><strong>Answer:</strong> (4, 12) — the 4 drug rows</p>
+      </div>
+    </div>
+
+    <!-- ══ DAY 5 ══ -->
+    <div class="page" id="page-day5">
+      <div class="page-badge">📅 Day 5 — Monday</div>
+      <h1 class="page-title">axis + for loops: Per-Row Statistics</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 35–45 min</span>
+        <span class="meta-chip">🆕 axis=1/0, for i in range(), elif</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>You need a per-row summary of your plate — mean viability and a QC flag for each row. This is the standard format for plate QC reports in pharma.</div>
+
+      <h2>💡 axis=1 vs axis=0</h2>
+      <div class="ascii-box">plate = [[96.0, 98.0, 94.0],   row 0
+         [44.0, 46.0, 42.0],   row 1
+         [ 4.0,  6.0,  2.0]]   row 2
+
+axis=1 → calculate ACROSS each row (→ → →)
+  row 0 mean = (96+98+94)/3 = 96.0 ← one number per ROW
+  row 1 mean = (44+46+42)/3 = 44.0
+  row 2 mean = ( 4+ 6+ 2)/3 =  4.0
+  result: [96.0, 44.0, 4.0]  shape: (3,)
+
+axis=0 → calculate DOWN each column (↓ ↓ ↓)
+  col 0 mean = (96+44+4)/3 = 48.0 ← one number per COLUMN
+  result: [48.0, 50.0, 46.0]  shape: (3,)</div>
+
+      <h2>💡 The for Loop</h2>
+      <div class="ascii-box">for i in range(3):
+    print(i)
+→ i=0 → prints 0
+→ i=1 → prints 1
+→ i=2 → prints 2
+
+range(3) generates: 0, 1, 2  (stops BEFORE 3)</div>
+
+      <h3>💻 Code — day5_axis_loops.py</h3>
+      <pre><code class="language-python">import numpy as np
+np.set_printoptions(suppress=True)
+np.random.seed(42)
+
+plate = np.vstack([
+    np.random.uniform(92, 100, size=(2, 12)),
+    np.random.uniform(10, 85,  size=(4, 12)),
+    np.random.uniform(1,  6,   size=(2, 12)),
+])
+
+row_names = ['A','B','C','D','E','F','G','H']
+row_types = ['DMSO','DMSO','Drug','Drug','Drug','Drug','Ctrl','Ctrl']
+row_means = np.mean(plate, axis=1)
+row_stds  = np.std(plate, axis=1, ddof=1)
+
+print(f"{'Row':<4} {'Type':<6} {'Mean':>7} {'Flag':>7}")
+
+for i in range(8):
+    mean_val = row_means[i]
+    if mean_val > 80:
+        flag = "PASS"
+    elif mean_val < 15:
+        flag = "CTRL"
+    else:
+        flag = "----"
+    print(f"{row_names[i]:<4} {row_types[i]:<6} {mean_val:>6.1f}%  {flag}")</code></pre>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <p>Add a 4th flag: if <code>%CV > 20%</code> → print "FAIL". What rows get flagged?</p>
+      </div>
+    </div>
+
+    <!-- ══ DAY 6A ══ -->
+    <div class="page" id="page-day6a">
+      <div class="page-badge">📅 Day 6A — Wednesday</div>
+      <h1 class="page-title">Boolean Masking: The Basics</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 25–30 min</span>
+        <span class="meta-chip">🆕 >, <, ==, array[ mask ]</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>Your lab measured cell survival after drug treatment. You want to automatically flag wells below 20% — these are your potential drug hits.</div>
+
+      <h2>💡 The Concept</h2>
+      <div class="ascii-box">wells =   [98.2,  95.7,  12.3,  11.8,  97.1,   8.4]
+
+wells < 20:
+          [False, False,  True,  True, False,  True]
+                           ↑             ↑      ↑
+                     only these wells pass the filter
+
+wells[mask]:  [12.3, 11.8, 8.4]   ← only True positions kept
+
+Step 1: Create mask    mask = wells < 20
+Step 2: Apply mask     hits = wells[mask]
+Step 3: Use result     print(hits)</div>
+
+      <h3>💻 Code — day6a_masking.py</h3>
+      <pre><code class="language-python">import numpy as np
+np.set_printoptions(suppress=True)
+
+wells = np.array([98.2, 95.7, 12.3, 11.8, 97.1, 8.4])
+
+# Step 1: Create mask
+mask = wells < 20
+print("Mask:", mask)
+
+# Step 2: Apply mask
+hit_wells = wells[mask]
+print("Hit wells:", hit_wells)
+
+# Step 3: Count
+print(f"Total: {wells.size}  |  Hits: {hit_wells.size}")</code></pre>
+
+      <h3>✅ Expected Output</h3>
+      <div class="output">Mask: [False False  True  True False  True]
+Hit wells: [12.3 11.8  8.4]
+Total: 6  |  Hits: 3</div>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <p>Find wells above 90%: <code>high_mask = wells > 90</code>. How many are there?</p>
+        <p><strong>Answer:</strong> 3 wells — [98.2, 95.7, 97.1]</p>
+      </div>
+
+      <h3>⚠️ Operators</h3>
+      <table>
+        <tr><th>Operator</th><th>Meaning</th><th>Example</th></tr>
+        <tr><td><code>></code></td><td>greater than</td><td>wells > 85</td></tr>
+        <tr><td><code><</code></td><td>less than</td><td>wells < 30</td></tr>
+        <tr><td><code>>=</code></td><td>greater or equal</td><td>wells >= 85</td></tr>
+        <tr><td><code><=</code></td><td>less or equal</td><td>wells <= 30</td></tr>
+        <tr><td><code>==</code></td><td>exactly equal</td><td>wells == 97.1</td></tr>
+        <tr><td><code>!=</code></td><td>not equal</td><td>wells != 0</td></tr>
+      </table>
+    </div>
+
+    <!-- ══ DAY 6B ══ -->
+    <div class="page" id="page-day6b">
+      <div class="page-badge">📅 Day 6B — Thursday</div>
+      <h1 class="page-title">Combining Conditions: & and |</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 30–35 min</span>
+        <span class="meta-chip">🆕 & (AND), | (OR), np.sum()</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>You want to flag drug hits that are below 30% viability AND not obvious measurement errors (which show up above 105%). One condition alone is not enough.</div>
+
+      <h2>💡 The Concept</h2>
+      <div class="ascii-box">wells = [98.2, 12.3, 110.5, 8.4, 45.2, 3.1]
+
+condition 1: wells < 30
+            [False,  True, False, True, False, True]
+
+condition 2: wells < 105
+            [ True,  True, False, True,  True, True]
+
+combined: (wells < 30) & (wells < 105)
+            [False,  True, False, True, False, True]
+                     ↑            ↑            ↑
+            BOTH conditions must be True to keep the well
+
+& = AND — both must be True
+| = OR  — either can be True
+
+⚠️  Always wrap each condition in parentheses!
+✅  (wells < 30) & (wells < 105)
+❌  wells < 30 & wells < 105  ← operator order bug</div>
+
+      <h3>💻 Code — day6b_conditions.py</h3>
+      <pre><code class="language-python">import numpy as np
+np.set_printoptions(suppress=True)
+
+wells = np.array([98.2, 12.3, 110.5, 8.4, 45.2, 3.1,
+                  95.7, 22.1,  88.3, 0.2, 67.4, 14.8])
+
+# AND: hits that are not errors
+hit_mask  = (wells < 30) & (wells < 105)
+hit_wells = wells[hit_mask]
+print("Hits (< 30% AND < 105%):", hit_wells)
+
+# OR: extreme wells (very high OR very low)
+extreme_mask  = (wells > 100) | (wells < 5)
+extreme_wells = wells[extreme_mask]
+print("Extreme wells:", extreme_wells)
+
+# Count Trues using np.sum()
+print("Hit count:", np.sum(hit_mask))
+# np.sum() on a boolean: True=1, False=0 → gives count</code></pre>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <p>Find DMSO-like wells: above 85% AND below 100%. How many?</p>
+        <pre><code class="language-python">dmso_mask = (wells > 85) & (wells < 100)</code></pre>
+        <p><strong>Answer:</strong> [98.2, 95.7, 88.3] — 3 wells</p>
+      </div>
+
+      <h3>⚠️ Common Mistakes</h3>
+      <table class="mistakes">
+        <tr><th>Mistake</th><th>Problem</th><th>Fix</th></tr>
+        <tr><td>wells > 85 and wells < 95</td><td>ValueError — can't use 'and' on arrays</td><td>Use &: (wells > 85) & (wells < 95)</td></tr>
+        <tr><td>Missing parentheses</td><td>Operator precedence bug — wrong result</td><td>Always: (cond1) & (cond2)</td></tr>
+      </table>
+    </div>
+
+    <!-- ══ DAY 6C ══ -->
+    <div class="page" id="page-day6c">
+      <div class="page-badge">📅 Day 6C — Friday</div>
+      <h1 class="page-title">np.abs() and ~ (NOT)</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 25–30 min</span>
+        <span class="meta-chip">🆕 np.abs(), ~ (invert mask)</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>Some wells in your screen deviate far from the plate average — either too high or too low. You want to flag these outliers regardless of direction, then remove them to get clean data.</div>
+
+      <h2>💡 np.abs() — Absolute Value</h2>
+      <div class="ascii-box">z_scores = [-2.8,  0.4,  1.2, -3.1,  0.9]
+
+np.abs(z_scores):
+            [2.8,  0.4,  1.2,  3.1,  0.9]
+             ↑                  ↑
+        negative signs removed — now we can use > threshold
+        to catch BOTH high and low outliers with one line</div>
+
+      <h2>💡 ~ (NOT) — Inverting a Mask</h2>
+      <div class="ascii-box">mask  = [False, False,  True,  True, False]
+~mask = [ True,  True, False, False,  True]
+
+Use ~ to get "everything except":
+  clean = wells[~outlier_mask]  ← keep NON-outliers</div>
+
+      <h3>💻 Code — day6c_abs_not.py</h3>
+      <pre><code class="language-python">import numpy as np
+np.set_printoptions(suppress=True)
+
+deviations = np.array([-2.8, 0.4, 1.2, -3.1, 0.9, -0.3, 2.1, -1.7])
+
+# Absolute value — removes negative signs
+abs_dev = np.abs(deviations)
+print("Absolute:", abs_dev)
+
+# Flag outliers: |deviation| > 2.5
+outlier_mask = np.abs(deviations) > 2.5
+print("Outliers:", deviations[outlier_mask])
+
+# Keep clean wells using ~
+clean_wells = deviations[~outlier_mask]
+print("Clean:", clean_wells)
+
+print(f"Outliers: {np.sum(outlier_mask)}  |  Clean: {np.sum(~outlier_mask)}")</code></pre>
+
+      <h3>✅ Expected Output</h3>
+      <div class="output">Absolute: [2.8 0.4 1.2 3.1 0.9 0.3 2.1 1.7]
+Outliers: [-2.8 -3.1]
+Clean: [ 0.4  1.2  0.9 -0.3  2.1 -1.7]
+Outliers: 2  |  Clean: 6</div>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <p>Find wells within normal range: <code>np.abs(deviations) <= 1.0</code>. How many?</p>
+        <p><strong>Answer:</strong> [0.4, 0.9, -0.3, -1.7] → not quite, check the abs values carefully!</p>
+      </div>
+
+      <h3>⚠️ Common Mistakes</h3>
+      <table class="mistakes">
+        <tr><th>Mistake</th><th>Problem</th><th>Fix</th></tr>
+        <tr><td>abs(array)</td><td>Works on single numbers, fails on arrays</td><td>Always np.abs() for arrays</td></tr>
+        <tr><td>not outlier_mask</td><td>ValueError on arrays</td><td>Use ~ for arrays</td></tr>
+      </table>
+    </div>
+
+    <!-- ══ DRY RUN ══ -->
+    <div class="page" id="page-dryrun">
+      <div class="page-badge">🏃 Dry Run</div>
+      <h1 class="page-title">Mini Pipeline from Scratch</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 40–50 min</span>
+        <span class="meta-chip">📝 Write from scratch — no blanks</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>Your lab treated A549 lung cancer cells with a KRAS inhibitor and measured cell survival. You need to build a full analysis pipeline — from plate construction to hit identification.</div>
+
+      <div class="callout yellow">
+        <strong>Rules:</strong> No fill-in-the-blank. Use your daily exercise files as reference — that's fine. Write every line yourself. Work section by section.
+      </div>
+
+      <h2>📋 Your Tasks</h2>
+
+      <h3>Section 1 — Build the Plate</h3>
+      <pre><code class="language-python"># 8×12 plate:
+# Rows A-B  (0-1): DMSO controls   → ~92-100%
+# Rows C-F  (2-5): KRAS inhibitor  → ~10-75%
+# Rows G-H  (6-7): Staurosporine   → ~1-8%
+# Use: np.random.seed(2024), np.vstack(), np.clip()</code></pre>
+
+      <h3>Section 2 — Plate Summary</h3>
+      <p>Print: plate dimensions, total wells, plate-wide mean and SD.</p>
+
+      <h3>Section 3 — Control QC</h3>
+      <p>Extract DMSO rows, calculate mean/SD/%CV, print PASS or FAIL.</p>
+
+      <h3>Section 4 — Row-by-Row Loop</h3>
+      <pre><code class="language-python"># Use axis=1 for per-row means
+# Use for loop + elif for flags:
+# mean > 85% → "PASS"
+# mean < 30% → "HIT"
+# everything else → "----"</code></pre>
+
+      <h3>Section 5 — Hit Identification</h3>
+      <p>Use Boolean masking to find all wells below 30%. Print total count.</p>
+
+      <h3>Section 6 — Final Summary</h3>
+      <p>Print: Control QC status, hits identified.</p>
+
+      <div class="callout green">
+        <strong>When done — rate it:</strong><br>
+        Easy → Ready for portfolio project<br>
+        Medium → Portfolio project with notes open is fine<br>
+        Hard → Tell me which section — I'll give targeted help first
+      </div>
+    </div>
+
+    <!-- ══ PORTFOLIO ══ -->
+    <div class="page" id="page-portfolio">
+      <div class="page-badge">🚀 Portfolio Project</div>
+      <h1 class="page-title">numpy_assay_basics.py</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 45–60 min</span>
+        <span class="meta-chip">📁 GitHub-ready</span>
+        <span class="meta-chip">💼 Interview-ready</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Lombardi Cancer Center Scenario</div>You are a data scientist supporting a palbociclib resistance study at Georgetown Lombardi Cancer Center. Your lab ran a 96-well CellTiter-Glo viability screen on MCF-7 breast cancer cells treated with an EGFR inhibitor at 6 concentrations. Analyze the plate and write code that produces a report the PI could present at lab meeting.</div>
+
+      <div class="callout">
+        <strong>What to build:</strong> A complete analysis pipeline with 7 sections — plate construction, summary, control QC, row-by-row stats, outlier detection, hit identification, and final summary. All from scratch, no blanks.
+      </div>
+
+      <h2>📋 Required Sections</h2>
+      <table>
+        <tr><th>Section</th><th>What it does</th><th>Key functions</th></tr>
+        <tr><td>1. Build plate</td><td>Simulate 96-well EGFR inhibitor screen</td><td>np.random.normal(), np.vstack(), np.clip()</td></tr>
+        <tr><td>2. Summary</td><td>Plate dimensions, mean, SD</td><td>plate.shape, np.mean(), np.std()</td></tr>
+        <tr><td>3. Control QC</td><td>DMSO mean/SD/%CV, PASS/FAIL</td><td>plate[0:2,:].flatten()</td></tr>
+        <tr><td>4. Row-by-row</td><td>Per-row stats with concentration labels</td><td>axis=1, for loop, elif</td></tr>
+        <tr><td>5. Outliers</td><td>Z-score flagging (optional for now)</td><td>np.abs(), np.where()</td></tr>
+        <tr><td>6. Hits</td><td>Wells below 30% viability</td><td>Boolean masking, np.where()</td></tr>
+        <tr><td>7. Summary</td><td>Final clean report block</td><td>All of the above</td></tr>
+      </table>
+
+      <h2>📦 GitHub Commit Checklist</h2>
+      <pre><code class="language-bash">mkdir week1
+cp numpy_assay_basics.py week1/
+cp day1_arrays.py        week1/
+cp day2_statistics.py    week1/
+# ... add all daily files
+
+git add .
+git commit -m "Stage 1 complete: NumPy plate analysis pipeline"
+git push origin main</code></pre>
+
+      <h3>✅ Before you push:</h3>
+      <ul>
+        <li>Script runs without errors</li>
+        <li>Output matches expected structure</li>
+        <li>You typed the code yourself</li>
+        <li>README.md exists with a short description</li>
+        <li>Commit message is descriptive</li>
+      </ul>
+
+      <div class="portfolio-note">
+        <div class="portfolio-note-header">📁 Why this matters</div>
+        A GitHub portfolio project with real pharma context — Lombardi Cancer Center, MCF-7 cells, EGFR inhibitor, CellTiter-Glo — is what separates a data science candidate from hundreds of generic Python bootcamp graduates. This is your first proof of domain expertise + coding ability combined.
+      </div>
+    </div>
+
+  </div><!-- end content-scroll -->
+</div><!-- end main -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+<script>
+const pages = ['overview','cheatsheet','day1','day2','day3','day4','day5','day6a','day6b','day6c','dryrun','portfolio'];
+const titles = {
+  overview: 'Course Roadmap',
+  cheatsheet: 'Cheat Sheet',
+  day1: 'Day 1 — Arrays',
+  day2: 'Day 2 — Mean, SD, %CV',
+  day3: 'Day 3 — 2D Arrays',
+  day4: 'Day 4 — Slicing',
+  day5: 'Day 5 — axis + for loops',
+  day6a: 'Day 6A — Basic Masking',
+  day6b: 'Day 6B — & and |',
+  day6c: 'Day 6C — np.abs() + ~',
+  dryrun: 'Dry Run',
+  portfolio: 'Portfolio Project'
+};
+
+let current = 'overview';
+let done = JSON.parse(sessionStorage.getItem('done') || '{}');
+
+function showPage(id) {
+  document.getElementById('page-' + current).classList.remove('active');
+  document.getElementById('nav-' + current).classList.remove('active');
+  current = id;
+  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  document.getElementById('topbar-title').textContent = titles[id];
+  updateMarkBtn();
+  document.querySelector('.content-scroll').scrollTop = 0;
+}
+
+function navNext() {
+  const idx = pages.indexOf(current);
+  if (idx < pages.length - 1) showPage(pages[idx + 1]);
+}
+
+function navPrev() {
+  const idx = pages.indexOf(current);
+  if (idx > 0) showPage(pages[idx - 1]);
+}
+
+function toggleDone(e, id) {
+  e.stopPropagation();
+  done[id] = !done[id];
+  sessionStorage.setItem('done', JSON.stringify(done));
+  updateAll();
+}
+
+function markCurrentDone() {
+  done[current] = !done[current];
+  sessionStorage.setItem('done', JSON.stringify(done));
+  updateAll();
+}
+
+function updateAll() {
+  let count = 0;
+  pages.forEach(id => {
+    const navItem = document.getElementById('nav-' + id);
+    const check = navItem.querySelector('.nav-check');
+    if (done[id]) {
+      navItem.classList.add('done');
+      check.textContent = '✓';
+      count++;
+    } else {
+      navItem.classList.remove('done');
+      check.textContent = '✓';
+    }
+  });
+  const pct = Math.round((count / pages.length) * 100);
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+  updateMarkBtn();
+}
+
+function updateMarkBtn() {
+  const btn = document.getElementById('mark-done-btn');
+  if (done[current]) {
+    btn.textContent = '✓ Done';
+    btn.classList.add('done');
+  } else {
+    btn.textContent = 'Mark as Done';
+    btn.classList.remove('done');
+  }
+}
+
+updateAll();
+</script>
+</body>
+</html>
