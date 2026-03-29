@@ -728,6 +728,38 @@
       <div class="nav-label">Dry Run</div>
       <div class="nav-tag">Mon</div>
     </div>
+    <div class="nav-item" onclick="showPage('s1project')" id="nav-s1project">
+      <div class="nav-check" onclick="toggleDone(event,'s1project')">✓</div>
+      <div class="nav-label">Stage 1 Portfolio</div>
+      <div class="nav-tag">Fri</div>
+    </div>
+
+    <div class="nav-section">Stage 2 — Dose-Response</div>
+    <div class="nav-item" onclick="showPage('s2day1')" id="nav-s2day1">
+      <div class="nav-check" onclick="toggleDone(event,'s2day1')">✓</div>
+      <div class="nav-label">Day 1 — Recap + Intro</div>
+      <div class="nav-tag">Mon</div>
+    </div>
+    <div class="nav-item" onclick="showPage('s2day2')" id="nav-s2day2">
+      <div class="nav-check" onclick="toggleDone(event,'s2day2')">✓</div>
+      <div class="nav-label">Day 2 — Matplotlib</div>
+      <div class="nav-tag">Tue</div>
+    </div>
+    <div class="nav-item" onclick="showPage('s2day3')" id="nav-s2day3">
+      <div class="nav-check" onclick="toggleDone(event,'s2day3')">✓</div>
+      <div class="nav-label">Day 3 — IC50 Calculation</div>
+      <div class="nav-tag">Wed</div>
+    </div>
+    <div class="nav-item" onclick="showPage('s2day4')" id="nav-s2day4">
+      <div class="nav-check" onclick="toggleDone(event,'s2day4')">✓</div>
+      <div class="nav-label">Day 4 — Multi-Compound</div>
+      <div class="nav-tag">Thu</div>
+    </div>
+    <div class="nav-item" onclick="showPage('s2project')" id="nav-s2project">
+      <div class="nav-check" onclick="toggleDone(event,'s2project')">✓</div>
+      <div class="nav-label">Stage 2 Portfolio</div>
+      <div class="nav-tag">Fri</div>
+    </div>
   </div>
 </div>
 
@@ -1485,6 +1517,444 @@ Outliers: 2  |  Clean: 6</div>
     </div>
 
 
+    <!-- ══ STAGE 1 PORTFOLIO ══ -->
+    <div class="page" id="page-s1project">
+      <div class="page-badge">🚀 Stage 1 Portfolio</div>
+      <h1 class="page-title">numpy_assay_basics.py</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 45–60 min</span>
+        <span class="meta-chip">📁 GitHub-ready</span>
+        <span class="meta-chip">💼 Interview-ready</span>
+      </div>
+      <div class="scenario"><div class="scenario-header">🔬 Research Scenario</div>A lab is investigating whether a RAGE inhibitor can enhance the cytotoxic effects of a standard chemotherapy drug in a murine triple-negative breast cancer (TNBC) cell line. A 96-hour cell viability assay was run on a 24-well plate. The analysis requires control QC, per-treatment viability summary, and identification of conditions producing significant cytotoxic effects.</div>
+      <h2>📋 Required Sections</h2>
+      <table>
+        <tr><th>Section</th><th>What it does</th><th>Key functions</th></tr>
+        <tr><td>1. Build plate</td><td>Simulate 24-well combination drug screen</td><td>np.random.normal(), np.vstack(), np.clip()</td></tr>
+        <tr><td>2. Summary</td><td>Plate dimensions, mean viability, SD</td><td>plate.shape, np.mean(), np.std()</td></tr>
+        <tr><td>3. Control QC</td><td>DMSO mean/SD/%CV — PASS or FAIL</td><td>plate[0, :], np.mean(), np.std()</td></tr>
+        <tr><td>4. Per-treatment</td><td>Per-row stats with treatment labels + flags</td><td>axis=1, for loop, elif</td></tr>
+        <tr><td>5. Hit ID</td><td>Wells below 50% viability — how many per row?</td><td>Boolean masking, np.sum()</td></tr>
+        <tr><td>6. Summary</td><td>Final report — QC status, hits, combo benefit</td><td>All of the above</td></tr>
+      </table>
+      <div class="portfolio-note">
+        <div class="portfolio-note-header">📁 Why this matters</div>
+        This portfolio project applies Python data analysis to a real cancer biology research question — combining wet lab domain knowledge with computational analysis. The ability to bridge experimental biology and data science is a rare and valuable skill in pharmaceutical drug discovery.
+      </div>
+    </div>
+
+    <!-- ══ STAGE 2 DAY 1 ══ -->
+    <div class="page" id="page-s2day1">
+      <div class="page-badge">📅 Stage 2 — Day 1 — Monday</div>
+      <h1 class="page-title">Stage 1 Recap + Intro to Dose-Response</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 35–45 min</span>
+        <span class="meta-chip">🆕 np.log10(), np.argmin()</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>Your lab treated cancer cells with increasing concentrations of a drug and measured how many cells survived. The relationship between drug dose and cell death follows an S-shaped curve. Today you'll load that data and find the approximate IC50 — the concentration that kills 50% of cells.</div>
+
+      <h2>💡 Stage 1 Recap</h2>
+      <p>Before starting Stage 2, answer these from memory:</p>
+      <div class="ascii-box">1. How do you create a NumPy array?
+2. What does plate[0, :] return?
+3. What does np.mean(plate, axis=1) give you?
+4. Difference between & and 'and' for arrays?
+5. What does np.abs() do?</div>
+
+      <h2>💡 What Is a Dose-Response Curve?</h2>
+      <div class="ascii-box">Low dose  → most cells survive  → high viability
+High dose → most cells die      → low viability
+
+Viability
+  100% |●●
+       |   ●●
+   50% |──────●●●──  ← IC50 threshold
+       |          ●●●
+    0% |________________●●●
+       0.1  1   10  100  1000  nM
+              Concentration (log scale)
+
+IC50 = concentration that kills 50% of cells</div>
+
+      <h2>💡 Why Log Scale?</h2>
+      <div class="ascii-box">Concentrations: 0.1, 1, 10, 100, 1000 nM
+
+Linear scale: |0.1--1-----------10-----------100-----------1000|
+                                                              ↑ cramped
+
+Log scale:    |0.1---1---10---100---1000|
+                    ↑ evenly spaced, S-curve visible
+
+np.log10(10)   = 1
+np.log10(100)  = 2
+np.log10(1000) = 3</div>
+
+      <h3>💻 Code — day1_dose_response_intro.py</h3>
+      <pre><code class="language-python">import numpy as np
+np.set_printoptions(suppress=True)
+
+# Doxorubicin dose-response in 4T1 cells
+concentrations = np.array([0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0])
+viability      = np.array([98.2, 95.4, 87.3, 71.2, 48.6, 18.3, 4.2])
+
+# Log transform concentrations
+log_conc = np.log10(concentrations)
+# np.log10() = log base 10 of every element
+print("Log10 concentrations:", np.round(log_conc, 2))
+
+# Find approximate IC50
+diff_from_50 = np.abs(viability - 50)
+# np.abs() — from Stage 1 Day 6C
+ic50_index   = np.argmin(diff_from_50)
+# np.argmin() returns the INDEX of the smallest value
+# smallest distance from 50% = closest to IC50
+
+print(f"Approximate IC50: {concentrations[ic50_index]:.1f} nM")
+print(f"Viability at IC50: {viability[ic50_index]:.1f}%")</code></pre>
+
+      <h3>✅ Expected Output</h3>
+      <div class="output">Log10 concentrations: [-1.   -0.52  0.    0.48  1.    1.48  2.  ]
+Approximate IC50: 10.0 nM
+Viability at IC50: 48.6%</div>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <pre><code class="language-python">print(f"Max viability: {np.max(viability):.1f}%")
+print(f"Min viability: {np.min(viability):.1f}%")
+below_50 = viability < 50
+print(f"Points below IC50: {np.sum(below_50)}")</code></pre>
+        <p><strong>Answers:</strong> 98.2% — 4.2% — 3 points</p>
+      </div>
+
+      <h3>⚠️ Common Mistakes</h3>
+      <table class="mistakes">
+        <tr><th>Mistake</th><th>Problem</th><th>Fix</th></tr>
+        <tr><td>np.log(conc)</td><td>Natural log, not log10</td><td>Use np.log10() for concentrations</td></tr>
+        <tr><td>np.argmin() vs np.min()</td><td>argmin = index, min = value</td><td>Use argmin when you want the position</td></tr>
+      </table>
+
+      <div class="portfolio-note">
+        <div class="portfolio-note-header">📁 Portfolio Note</div>
+        IC50 is the most reported metric in drug discovery. Every drug that reaches clinical trials has one — being able to calculate it programmatically is Step 1 of any compound screening pipeline.
+      </div>
+    </div>
+
+    <!-- ══ STAGE 2 DAY 2 ══ -->
+    <div class="page" id="page-s2day2">
+      <div class="page-badge">📅 Stage 2 — Day 2 — Tuesday</div>
+      <h1 class="page-title">Matplotlib: Plotting Your First Graph</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 35–45 min</span>
+        <span class="meta-chip">🆕 import matplotlib.pyplot as plt</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>You have dose-response data from your cell viability assay. Your PI wants a graph — not just numbers. Today you'll generate a publication-quality dose-response plot using Python instead of GraphPad Prism.</div>
+
+      <h2>💡 The Concept</h2>
+      <p>Matplotlib is Python's plotting library — your programmatic GraphPad Prism. <code>pyplot</code> is the module we use. <code>plt</code> is the standard nickname.</p>
+
+      <div class="ascii-box">import matplotlib.pyplot as plt
+
+plt.figure()      → create a blank canvas
+plt.plot(x, y)    → draw a line
+plt.xlabel()      → label x-axis
+plt.ylabel()      → label y-axis
+plt.title()       → add title
+plt.axhline(y=50) → horizontal line at y=50
+plt.savefig()     → save as image file
+plt.show()        → display on screen</div>
+
+      <h3>💻 Code — day2_matplotlib_basics.py</h3>
+      <pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+np.set_printoptions(suppress=True)
+
+concentrations = np.array([0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0])
+viability      = np.array([98.2, 95.4, 87.3, 71.2, 48.6, 18.3, 4.2])
+log_conc       = np.log10(concentrations)
+
+plt.figure(figsize=(8, 5))
+# figsize=(width, height) in inches
+
+plt.plot(log_conc, viability,
+         'o-',            # 'o' = circle markers, '-' = line
+         color='steelblue',
+         linewidth=2,
+         markersize=8,
+         label='Doxorubicin')
+
+plt.xlabel('Log10 Concentration (nM)', fontsize=12)
+plt.ylabel('Cell Viability (%)', fontsize=12)
+plt.title('Doxorubicin Dose-Response — TNBC Cells', fontsize=14)
+plt.axhline(y=50, color='red', linestyle='--',
+            alpha=0.7, label='IC50 threshold')
+# alpha=0.7 = slightly transparent
+# linestyle='--' = dashed line
+
+plt.legend(fontsize=10)
+plt.grid(True, alpha=0.3)
+plt.ylim(0, 110)
+plt.tight_layout()
+plt.savefig('dose_response_plot.png', dpi=150)
+# ALWAYS savefig() BEFORE show()
+plt.show()</code></pre>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <p>Add a second drug to the same plot before <code>plt.legend()</code>:</p>
+        <pre><code class="language-python">viability_drug2 = np.array([99.1, 97.2, 91.4, 78.3, 61.2, 34.7, 12.1])
+plt.plot(log_conc, viability_drug2,
+         's--', color='darkorange',
+         linewidth=2, markersize=8,
+         label='Paclitaxel')</code></pre>
+        <p>Which drug has a lower IC50 (more potent)? The curve shifted more to the LEFT.</p>
+      </div>
+
+      <h3>⚠️ Common Mistakes</h3>
+      <table class="mistakes">
+        <tr><th>Mistake</th><th>Problem</th><th>Fix</th></tr>
+        <tr><td>show() before savefig()</td><td>Saves blank image</td><td>Always savefig() first</td></tr>
+        <tr><td>Plotting concentrations not log_conc</td><td>Linear scale, curve looks wrong</td><td>Always log-transform x-axis</td></tr>
+      </table>
+    </div>
+
+    <!-- ══ STAGE 2 DAY 3 ══ -->
+    <div class="page" id="page-s2day3">
+      <div class="page-badge">📅 Stage 2 — Day 3 — Wednesday</div>
+      <h1 class="page-title">IC50 Calculation with np.interp()</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 35–45 min</span>
+        <span class="meta-chip">🆕 np.interp(), [::-1], 10**x</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>Your PI wants the exact IC50 value — not just the closest data point. Today you'll use interpolation to calculate it precisely, and mark it on your dose-response plot.</div>
+
+      <h2>💡 What Is Interpolation?</h2>
+      <div class="ascii-box">Known points:
+  conc=3nM  → viability=71.2%
+  conc=10nM → viability=48.6%
+
+Where does viability = exactly 50%?
+→ Somewhere between 3 and 10 nM
+→ np.interp() finds the precise crossing point
+→ Answer: ≈ 9.2 nM</div>
+
+      <h2>💡 [::-1] — Reversing an Array</h2>
+      <div class="ascii-box">viability = [98.2, 95.4, 87.3, 71.2, 48.6, 18.3, 4.2]
+                  ↑ high                              ↑ low
+                  decreasing →
+
+viability[::-1] = [4.2, 18.3, 48.6, 71.2, 87.3, 95.4, 98.2]
+                   ↑ low                              ↑ high
+                   increasing →
+
+np.interp() requires values to be INCREASING
+so we must reverse viability first</div>
+
+      <h3>💻 Code — day3_ic50_calculation.py</h3>
+      <pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+np.set_printoptions(suppress=True)
+
+concentrations = np.array([0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0])
+viability      = np.array([98.2, 95.4, 87.3, 71.2, 48.6, 18.3, 4.2])
+log_conc       = np.log10(concentrations)
+
+# Step 1: reverse arrays (np.interp needs increasing values)
+viability_flipped = viability[::-1]
+log_conc_flipped  = log_conc[::-1]
+
+# Step 2: interpolate to find log(IC50)
+log_ic50 = np.interp(50, viability_flipped, log_conc_flipped)
+# np.interp(target_y, y_values, x_values)
+# "At what x does y equal 50?"
+
+# Step 3: convert log back to nM
+ic50 = 10 ** log_ic50
+# 10 ** log = antilog = converts back to concentration
+# 10**1 = 10, 10**1.5 = 31.6, 10**2 = 100
+
+print(f"IC50 = {ic50:.2f} nM")
+print(f"Log IC50 = {log_ic50:.3f}")
+
+# Plot with IC50 marked
+plt.figure(figsize=(8, 5))
+plt.plot(log_conc, viability, 'o-', color='steelblue',
+         linewidth=2, markersize=8)
+plt.axhline(y=50, color='red', linestyle='--',
+            alpha=0.7, label='50% viability')
+plt.axvline(x=log_ic50, color='green', linestyle='--',
+            alpha=0.7, label=f'IC50 = {ic50:.1f} nM')
+# plt.axvline() = vertical line at x position
+
+plt.xlabel('Log10 Concentration (nM)')
+plt.ylabel('Cell Viability (%)')
+plt.title('IC50 Calculation')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.ylim(0, 110)
+plt.tight_layout()
+plt.savefig('ic50_plot.png', dpi=150)
+plt.show()</code></pre>
+
+      <h3>✅ Expected Output</h3>
+      <div class="output">IC50 = 9.24 nM
+Log IC50 = 0.966</div>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <p>Calculate IC50 for a RAGE inhibitor:</p>
+        <pre><code class="language-python">ttp488 = np.array([99.2, 97.8, 94.1, 83.4, 62.7, 38.2, 15.4])
+# Use the same 3-step process above
+# Expected IC50: ~28-32 nM (higher than Dox = less potent)</code></pre>
+      </div>
+
+      <h3>⚠️ Common Mistakes</h3>
+      <table class="mistakes">
+        <tr><th>Mistake</th><th>Problem</th><th>Fix</th></tr>
+        <tr><td>Forgetting [::-1]</td><td>np.interp gives wrong answer</td><td>viability must increase for np.interp</td></tr>
+        <tr><td>10 ** log_ic50 vs np.log10(ic50)</td><td>Confusing log and antilog</td><td>10**x converts log BACK to concentration</td></tr>
+        <tr><td>axvline vs axhline</td><td>Draws wrong direction</td><td>axvline = vertical, axhline = horizontal</td></tr>
+      </table>
+    </div>
+
+    <!-- ══ STAGE 2 DAY 4 ══ -->
+    <div class="page" id="page-s2day4">
+      <div class="page-badge">📅 Stage 2 — Day 4 — Thursday</div>
+      <h1 class="page-title">Multi-Compound Screening</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 40–50 min</span>
+        <span class="meta-chip">🆕 dictionaries, .items(), enumerate()</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 Scenario</div>Your lab tested three conditions — chemotherapy alone, a RAGE inhibitor alone, and their combination — in the same dose-response assay. You need to rank all three by IC50 and plot them on one graph to show the combination benefit.</div>
+
+      <h2>💡 New Concept: Dictionaries</h2>
+      <div class="ascii-box">A dictionary stores key:value pairs:
+
+compounds = {
+    'Drug A': np.array([98.2, 87.3, 48.6, 4.2]),
+    'Drug B': np.array([99.1, 91.4, 61.2, 12.1]),
+}
+
+Access by key:    compounds['Drug A']
+Loop through:     for name, viability in compounds.items()
+                  → name     = 'Drug A'
+                  → viability = the array</div>
+
+      <h3>💻 Code — day4_compound_screening.py</h3>
+      <pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+np.set_printoptions(suppress=True)
+
+concentrations = np.array([0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0])
+log_conc       = np.log10(concentrations)
+
+compounds = {
+    'Doxorubicin':  np.array([98.2, 95.4, 87.3, 71.2, 48.6, 18.3,  4.2]),
+    'TTP488':       np.array([99.2, 97.8, 94.1, 83.4, 62.7, 38.2, 15.4]),
+    'Dox + TTP488': np.array([97.1, 91.3, 78.4, 54.2, 28.7,  9.1,  2.3]),
+}
+colors = ['steelblue', 'darkorange', 'green']
+
+# Calculate IC50 for each compound
+ic50_results = []
+
+for compound_name, viability in compounds.items():
+    viab_flip    = viability[::-1]
+    log_c_flip   = log_conc[::-1]
+    log_ic50     = np.interp(50, viab_flip, log_c_flip)
+    ic50         = 10 ** log_ic50
+    ic50_results.append((compound_name, ic50))
+
+# Sort by IC50 — lowest = most potent
+ic50_results.sort(key=lambda x: x[1])
+
+print(f"{'Compound':<20} {'IC50 (nM)':>10} {'Rank':>6}")
+print("-" * 40)
+for rank, (name, ic50) in enumerate(ic50_results, start=1):
+    print(f"{name:<20} {ic50:>9.2f}  {rank:>5}")
+
+# Plot all curves
+plt.figure(figsize=(9, 6))
+for (name, viability), color in zip(compounds.items(), colors):
+    viab_flip  = viability[::-1]
+    log_c_flip = log_conc[::-1]
+    log_ic50   = np.interp(50, viab_flip, log_c_flip)
+    ic50       = 10 ** log_ic50
+    plt.plot(log_conc, viability, 'o-', color=color,
+             linewidth=2, markersize=7,
+             label=f'{name} (IC50={ic50:.1f} nM)')
+
+plt.axhline(y=50, color='red', linestyle='--', alpha=0.5)
+plt.xlabel('Log10 Concentration (nM)')
+plt.ylabel('Cell Viability (%)')
+plt.title('Combination Screen — TNBC Cells')
+plt.legend(fontsize=9)
+plt.grid(True, alpha=0.3)
+plt.ylim(0, 110)
+plt.tight_layout()
+plt.savefig('compound_screen.png', dpi=150)
+plt.show()</code></pre>
+
+      <h3>✅ Expected Output</h3>
+      <div class="output">Compound              IC50 (nM)   Rank
+----------------------------------------
+Dox + TTP488              3.12      1
+Doxorubicin               9.24      2
+TTP488                   29.41      3</div>
+
+      <div class="challenge">
+        <div class="challenge-header">⚡ Mini Challenge</div>
+        <p>Add a 4th compound to the dictionary and colors list:</p>
+        <pre><code class="language-python">compounds['Next-gen RAGEi'] = np.array([98.7, 96.2, 89.4, 71.3, 44.8, 19.2, 5.7])
+colors.append('purple')</code></pre>
+        <p>Where does it rank? More or less potent than TTP488?</p>
+      </div>
+
+      <h3>⚠️ Common Mistakes</h3>
+      <table class="mistakes">
+        <tr><th>Mistake</th><th>Problem</th><th>Fix</th></tr>
+        <tr><td>for compound in compounds</td><td>Loops over keys only</td><td>Use .items() to get key AND value</td></tr>
+        <tr><td>Forgetting colors.append()</td><td>IndexError when plotting</td><td>Keep colors list same length as compounds</td></tr>
+      </table>
+    </div>
+
+    <!-- ══ STAGE 2 PORTFOLIO ══ -->
+    <div class="page" id="page-s2project">
+      <div class="page-badge">🚀 Stage 2 Portfolio</div>
+      <h1 class="page-title">dose_response_screen.py</h1>
+      <div class="page-meta">
+        <span class="meta-chip">⏱ 45–60 min</span>
+        <span class="meta-chip">📁 GitHub-ready</span>
+        <span class="meta-chip">💼 Interview-ready</span>
+      </div>
+
+      <div class="scenario"><div class="scenario-header">🔬 AstraZeneca Scenario</div>You are a data scientist supporting the osimertinib resistance team. Your lab ran a dose-response assay on A549 lung cancer cells (EGFR-mutant) treated with 3 compounds. Your PI needs a ranked IC50 summary and a publication-quality dose-response plot.</div>
+
+      <h2>📋 Required Sections</h2>
+      <table>
+        <tr><th>Section</th><th>What it does</th><th>Key functions</th></tr>
+        <tr><td>1. Data</td><td>Define concentrations + viability for 3 compounds</td><td>np.array(), np.log10()</td></tr>
+        <tr><td>2. IC50</td><td>Calculate IC50 for each compound</td><td>np.interp(), [::-1], 10**x</td></tr>
+        <tr><td>3. Ranking</td><td>Print ranked summary table</td><td>.sort(), enumerate()</td></tr>
+        <tr><td>4. Plot</td><td>All 3 curves on one graph</td><td>matplotlib, plt.savefig()</td></tr>
+        <tr><td>5. Summary</td><td>Most potent compound + combination benefit</td><td>All of the above</td></tr>
+      </table>
+
+      <h2>📊 Viability Data to Use</h2>
+      <pre><code class="language-python">concentrations = np.array([0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0])  # µM
+osimertinib  = np.array([98.4, 95.2, 82.3, 54.7, 21.3,  6.2, 1.8])
+gefitinib    = np.array([99.1, 97.4, 91.2, 73.4, 48.2, 22.7, 8.4])
+combination  = np.array([96.3, 88.7, 64.2, 31.8, 12.4,  3.7, 1.1])</code></pre>
+
+      <div class="portfolio-note">
+        <div class="portfolio-note-header">📁 Why this matters</div>
+        Dose-response analysis and IC50 calculation are the most fundamental quantitative skills in drug discovery. Osimertinib (Tagrisso) is a real AstraZeneca drug — framing your portfolio project around it shows you understand real pharma research pipelines.
+      </div>
+    </div>
+
   </div><!-- end content-scroll -->
 </div><!-- end main -->
 
@@ -1493,19 +1963,25 @@ Outliers: 2  |  Clean: 6</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
 
 <script>
-const pages = ['overview','cheatsheet','day1','day2','day3','day4','day5','day6a','day6b','day6c','dryrun'];
+const pages = ['overview','cheatsheet','day1','day2','day3','day4','day5','day6a','day6b','day6c','dryrun','s1project','s2day1','s2day2','s2day3','s2day4','s2project'];
 const titles = {
-  overview: 'Course Roadmap',
+  overview:   'Course Roadmap',
   cheatsheet: 'Cheat Sheet',
-  day1: 'Day 1 — Arrays',
-  day2: 'Day 2 — Mean, SD, %CV',
-  day3: 'Day 3 — 2D Arrays',
-  day4: 'Day 4 — Slicing',
-  day5: 'Day 5 — axis + for loops',
-  day6a: 'Day 6A — Basic Masking',
-  day6b: 'Day 6B — & and |',
-  day6c: 'Day 6C — np.abs() + ~',
-  dryrun: 'Dry Run'
+  day1:       'Day 1 — Arrays',
+  day2:       'Day 2 — Mean, SD, %CV',
+  day3:       'Day 3 — 2D Arrays',
+  day4:       'Day 4 — Slicing',
+  day5:       'Day 5 — axis + for loops',
+  day6a:      'Day 6A — Basic Masking',
+  day6b:      'Day 6B — & and |',
+  day6c:      'Day 6C — np.abs() + ~',
+  dryrun:     'Dry Run',
+  s1project:  'Stage 1 Portfolio Project',
+  s2day1:     'Stage 2 Day 1 — Recap + Intro',
+  s2day2:     'Stage 2 Day 2 — Matplotlib',
+  s2day3:     'Stage 2 Day 3 — IC50 Calculation',
+  s2day4:     'Stage 2 Day 4 — Multi-Compound Screen',
+  s2project:  'Stage 2 Portfolio Project'
 };
 
 let current = 'overview';
