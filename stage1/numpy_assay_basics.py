@@ -1,4 +1,4 @@
-#basic Numpy Assays
+#Basic NumPy Assay
 #TNBC combination drug screen: cell viability analysis
 #scenario: TNBC cells treated with chemotherapy + RAGE inhibitor/ cell viability measured
 

@@ -11,6 +11,8 @@ Arrays, statistics, 2D plate simulation, Boolean masking applied
 to cell viability assays and plate reader data.
 `numpy_assay_basics.py`
 
+![Stage 1 Output](stage1/output_screenshot.png)
+
 **Stage 2 — Dose-Response Curves + IC50** ← In Progress
 Plotting drug-response relationships and fitting curves using 
 publicly available osimertinib (AstraZeneca) EGFR inhibitor data.
