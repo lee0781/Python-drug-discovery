@@ -57,10 +57,3 @@ Total wells:24
 Plate mean:57.7
 ```
 
-## How to run
-
-```bash
-python numpy_assay_basics.py
-```
-
-Requires: `numpy`
