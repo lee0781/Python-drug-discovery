@@ -1,4 +1,7 @@
 #basic Numpy Assays
+#TNBC combination drug screen: cell viability analysis
+#scenario: TNBC cells treated with chemotherapy + RAGE inhibitor/ cell viability meausured 
+
 import numpy as np
 np.set_printoptions(suppress=True)
 np.random.seed(2024)
