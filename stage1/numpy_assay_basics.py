@@ -1,6 +1,6 @@
 #basic Numpy Assays
 #TNBC combination drug screen: cell viability analysis
-#scenario: TNBC cells treated with chemotherapy + RAGE inhibitor/ cell viability meausured 
+#scenario: TNBC cells treated with chemotherapy + RAGE inhibitor/ cell viability measured
 
 import numpy as np
 np.set_printoptions(suppress=True)
@@ -24,7 +24,7 @@ plate=np.vstack([DMSO_rows,Chemo_rows,Combo_rows_low,Combo_rows_high])
 plate=np.clip(plate,0,105)
 print(np.round(plate,1))
 
-#2.Plate Summary
+#2. Plate Summary
 print(f"Plate mean viability:{np.mean(plate):.1f}%")
 print(f"Plate standard deviation:{np.std(plate,ddof=1):.1f}%")
 print("Plate shape:",plate.shape)
@@ -73,6 +73,6 @@ for i in range(4):
 #6. Summary
 print("\n-------QC Summary---")
 print(f"Control QC:{'Pass' if DMSO_cv<10 else 'Fail'}")
-print(f"Hits indentified:{hit_count}")
+print(f"Hits identified:{hit_count}")
 print(f"Total wells:{plate.size}")
 print(f"Plate mean:{np.mean(plate):.1f}")
