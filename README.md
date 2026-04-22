@@ -1,4 +1,4 @@
-# Python for Drug Discovery — Learning Portfolio
+# Python for Drug Discovery 
 
 A self-directed portfolio applying Python to real drug discovery 
 workflows, anchored to publicly available assay data and 
