@@ -1,46 +1,58 @@
 # Python for Drug Discovery
 
-A computational biology portfolio built by a wet lab scientist developing
-dry lab skills to become a stronger, dual-capability researcher in
-pharmaceutical drug discovery.
+A computational biology portfolio built by a wet-lab scientist developing dry-lab skills for pharmaceutical drug discovery.
 
-**Background:** M.S. Biochemistry & Molecular Biology, Georgetown University
-**Current role:** Research Associate: viral vector construction & molecular cloning
-**Goal:** Merge wet lab domain expertise with Python and AI skills to become 
-a stronger, dual-capability scientist in pharmaceutical drug discovery.
+**Background:** M.S. Biochemistry & Molecular Biology, Georgetown University  
+**Current role:** Research Associate — viral vector construction and molecular cloning  
+**Goal:** Merge wet-lab domain expertise with Python, data analysis, and AI-adjacent skills to become a stronger dual-capability scientist.
+
+---
 
 ## Portfolio Roadmap
 
-**Stage 1 — NumPy Fundamentals** ✅
-Arrays, summary statistics, plate simulation, Boolean masking, and assay QC applied to simulated cell viability data.
+### Stage 1 — NumPy Fundamentals ✅
 
-Script:[View Python script](stage1/numpy_assay_basics.py)  
-Output:[View Stage 1 results, figure, and interpretation](stage1/README.md)
+Arrays, statistics, plate simulation, Boolean masking, assay QC, and plate reader-style analysis applied to simulated cell viability data.
 
-**Stage 2 — Dose-Response Curves & Combination Analysis** 🔄 In Progress
-Hill equation curve fitting, IC50 (np.interp + curve_fit), R², error bars,
-combination index, and heatmap visualization, and dose-response plots.
-Drug: Osimertinib + Selumetinib (EGFR + MEK inhibitor combo screen)
-Model: EGFR-sensitive lung cancer cell line | Data: synthetic
+**Script:** [View Python script](stage1/numpy_assay_basics.py)  
+**Output:** [View Stage 1 results, figure, and interpretation](stage1/README.md)
 
-**Stage 3 — Pandas + HTS Data Tables** 📅 Upcoming
-DataFrames, CSV pipelines, real data loading from PubChem BioAssay.
-Drug: Venetoclax (BCL-2 inhibitor) | Cell line: HL60 leukemia
+### Stage 2 — Dose-Response Curves & Combination Analysis 🔄 In Progress
 
-**Stage 4 — SciPy + CRISPR Analysis** 📅 Upcoming
-CRISPR dropout screens, volcano plots using DepMap methodology.
+Hill equation curve fitting, IC50 estimation using `np.interp` and `curve_fit`, R², error bars, combination index, heatmap visualization, and dose-response plots.
 
-**Stage 5 — Machine Learning** 📅 Upcoming
-Drug sensitivity prediction using scikit-learn on GDSC/CCLE datasets.
+**Drug model:** Osimertinib + Selumetinib  
+**Biological context:** EGFR + MEK inhibitor combination screen  
+**Cell model:** EGFR-sensitive lung cancer cell line  
+**Data:** Synthetic
 
-**Stage 6 — scRNA-seq + Omics** 📅 Upcoming
+### Stage 3 — Pandas + HTS Data Tables 🚧 Upcoming
+
+DataFrames, CSV pipelines, and real data loading from PubChem BioAssay.
+
+**Drug model:** Venetoclax  
+**Biological context:** BCL-2 inhibitor analysis  
+**Cell model:** HL60 leukemia
+
+### Stage 4 — SciPy + CRISPR Analysis 🚧 Upcoming
+
+CRISPR dropout screen-style analysis and volcano plot visualization using DepMap-inspired methodology.
+
+### Stage 5 — Machine Learning 🚧 Upcoming
+
+Drug sensitivity prediction using scikit-learn on GDSC/CCLE-style datasets.
+
+### Stage 6 — scRNA-seq + Omics 🚧 Upcoming
 
 
-**Stage 7 — Protein Language Models** 📅 Upcoming
+
+### Stage 7 — Protein Language Models 🚧 Upcoming
 
 
--------------------------------------------------------------------------------
+
+---
 
 ## Current Tools
+
 Python | NumPy | SciPy | Matplotlib
 
