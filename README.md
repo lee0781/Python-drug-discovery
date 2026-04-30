@@ -13,8 +13,8 @@ a stronger, dual-capability scientist in pharmaceutical drug discovery.
 
 **Stage 1 — NumPy Fundamentals** ✅
 Arrays, summary statistics, plate simulation, Boolean masking, and assay QC applied to simulated cell viability data.
-Script: `stage1/numpy_assay_basics.py`
-Output: Per-treatment viability statistics, DMSO control CV%, QC pass/fail status, and hit identification.
+Script:[View Python script](stage1/numpy_assay_basics.py)  
+Output:[View Stage 1 results, figure, and interpretation](stage1/README.md)
 
 **Stage 2 — Dose-Response Curves & Combination Analysis** 🔄 In Progress
 Hill equation curve fitting, IC50 (np.interp + curve_fit), R², error bars,
