@@ -13,6 +13,7 @@ a stronger, dual-capability scientist in pharmaceutical drug discovery.
 
 **Stage 1 — NumPy Fundamentals** ✅
 Arrays, summary statistics, plate simulation, Boolean masking, and assay QC applied to simulated cell viability data.
+
 Script:[View Python script](stage1/numpy_assay_basics.py)  
 Output:[View Stage 1 results, figure, and interpretation](stage1/README.md)
 
