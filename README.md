@@ -12,10 +12,9 @@ a stronger, dual-capability scientist in pharmaceutical drug discovery.
 ## Portfolio Roadmap
 
 **Stage 1 — NumPy Fundamentals** ✅
-Arrays, statistics, plate simulation, Boolean masking: applied to cell
-viability assays and plate reader data.
+Arrays, summary statistics, plate simulation, Boolean masking, and assay QC applied to simulated cell viability data.
 Script: `stage1/numpy_assay_basics.py`
-Output: Per-condition viability statistics, flagged outliers
+Output: Per-treatment viability statistics, DMSO control CV%, QC pass/fail status, and hit identification.
 
 **Stage 2 — Dose-Response Curves & Combination Analysis** 🔄 In Progress
 Hill equation curve fitting, IC50 (np.interp + curve_fit), R², error bars,
@@ -34,13 +33,13 @@ CRISPR dropout screens, volcano plots using DepMap methodology.
 Drug sensitivity prediction using scikit-learn on GDSC/CCLE datasets.
 
 **Stage 6 — scRNA-seq + Omics** 📅 Upcoming
-Single-cell RNA-seq, tumor microenvironment analysis using Scanpy.
+
 
 **Stage 7 — Protein Language Models** 📅 Upcoming
-ESMFold, ProteinMPNN applied to oncology target discovery.
+
 
 -------------------------------------------------------------------------------
 
-## Tools
-Python | NumPy | SciPy | Matplotlib | Pandas | scikit-learn | Scanpy
+## Current Tools
+Python | NumPy | SciPy | Matplotlib
 
