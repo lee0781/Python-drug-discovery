@@ -141,7 +141,7 @@ plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig("dose_response_combo.png", dpi=150)
 plt.show()
-print("Plot saved: dose_response_combo.png")
+
 
 
 #8.Heatmap
@@ -165,4 +165,3 @@ plt.title(f'Combo Matrix — CI={CI:.3f} (Synergy)', fontsize=13)
 plt.tight_layout()
 plt.savefig('project_ci_heatmap.png', dpi=150)
 plt.show()
-print("Heatmap saved: project_ci_heatmap.png")
