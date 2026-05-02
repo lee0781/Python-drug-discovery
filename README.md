@@ -15,7 +15,7 @@ A computational biology portfolio built by a wet-lab scientist developing dry-la
 Arrays, statistics, plate simulation, Boolean masking, assay QC, and plate reader-style analysis applied to simulated cell viability data.
 
 **Script:** [View Python script](stage1/numpy_assay_basics.py)  
-**Output:** [View Stage 1 results, figure, and interpretation](stage1/README.md)
+**Output:** [View Stage 1 results](stage1/README.md)
 
 ### Stage 2 — Dose-Response Curves & Combination Analysis ✅
 
@@ -28,7 +28,7 @@ R², error bars, combination index, heatmap visualization, and dose-response plo
 **Data:** Synthetic  
 
 **Script:** [View Python script](stage2/dose_response_screen.py)  
-**Output:** [View Stage 2 results, figure, and interpretation](stage2/README.md)
+**Output:** [View Stage 2 results and figures](stage2/README.md)
 
 ### Stage 3 — Pandas + HTS Data Tables 🚧 Upcoming
 
