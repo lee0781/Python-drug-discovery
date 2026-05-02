@@ -28,7 +28,7 @@ R², error bars, combination index, heatmap visualization, and dose-response plo
 **Data:** Synthetic  
 
 **Script:** [View Python script](stage2/dose_response_screen.py)  
-**Output:** [View Stage 2 results, figure, and interpretation](stage2/output.png)
+**Output:** [View Stage 2 results, figure, and interpretation](stage2/README.md)
 
 ### Stage 3 — Pandas + HTS Data Tables 🚧 Upcoming
 
