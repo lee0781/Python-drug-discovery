@@ -21,10 +21,39 @@ combination screen on an EGFR-sensitive lung cancer cell line.
 | Osi + Selu | EGFR + MEK combo | ~1.24 µM |
 
 ## Output
-Fitted IC50 — Osimertinib: 2.53 µM | Selumetinib: 34.50 µM | Combo: 1.24 µM
-CI = 0.26 → Synergy
-Plots saved: dose_response_combo.png | project_ci_heatmap.png
+── QC Masking ──
+Osimertinib: 2 wells below 20% viability → flagged at:[ 100. 1000.]uM 
+Selumetinib: 1 wells below 20% viability → flagged at:[1000.]uM 
+Osi + Selu: 2 wells below 20% viability → flagged at:[ 100. 1000.]uM 
 
-## Data
-Synthetic viability data — Osimertinib + Selumetinib EGFR inhibitor combo screen
-Concentration range: 0.001–1000 µM
+──Quick IC50 (np.interp) ──
+Osimertinib: IC50=2.50 µM
+Selumetinib: IC50=30.99 µM
+Osi + Selu: IC50=1.27 µM
+
+──Fitted IC50 (curve_fit) & R²──
+  Osimertinib: IC50=2.53 µM | R²=0.9999
+  Selumetinib: IC50=34.50 µM | R²=0.9996
+  Osi + Selu: IC50=1.24 µM | R²=0.9997
+
+──Ranking──
+Rank  Compound            IC50
+----------------------------------------
+1     Osi + Selu          1.24 µM
+2     Osimertinib         2.53 µM
+3     Selumetinib         34.50 µM
+
+──Combination Index──
+CI=0.26: Synergy
+
+──Dose Response Plot──
+Plot saved: dose_response_combo.png
+
+──Heatmap──
+Heatmap saved: project_ci_heatmap.png
+
+### Dose-Response Curves
+![Dose-Response Plot](dose_response_combo.png)
+
+### Combination Heatmap
+![Combo Heatmap](ci_heatmap.png)
