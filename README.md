@@ -17,14 +17,18 @@ Arrays, statistics, plate simulation, Boolean masking, assay QC, and plate reade
 **Script:** [View Python script](stage1/numpy_assay_basics.py)  
 **Output:** [View Stage 1 results, figure, and interpretation](stage1/README.md)
 
-### Stage 2 — Dose-Response Curves & Combination Analysis 🔄 In Progress
+### Stage 2 — Dose-Response Curves & Combination Analysis ✅
 
-Hill equation curve fitting, IC50 estimation using `np.interp` and `curve_fit`, R², error bars, combination index, heatmap visualization, and dose-response plots.
+Hill equation curve fitting, IC50 estimation using `np.interp` and `curve_fit`, 
+R², error bars, combination index, heatmap visualization, and dose-response plots.
 
 **Drug model:** Osimertinib + Selumetinib  
 **Biological context:** EGFR + MEK inhibitor combination screen  
 **Cell model:** EGFR-sensitive lung cancer cell line  
-**Data:** Synthetic
+**Data:** Synthetic  
+
+**Script:** [View Python script](stage2/dose_response_screen.py)  
+**Output:** [View Stage 2 results, figure, and interpretation](stage2/output.png)
 
 ### Stage 3 — Pandas + HTS Data Tables 🚧 Upcoming
 
