@@ -30,7 +30,7 @@ R², error bars, combination index, heatmap visualization, and dose-response plo
 **Script:** [View Python script](stage2/dose_response_screen.py)  
 **Output:** [View Stage 2 results and figures](stage2/README.md)
 
-### Stage 3 — Pandas + HTS Data Tables 🚧 Upcoming
+### Stage 3 — Pandas + HTS Data Tables 🔄 In progress
 
 DataFrames, CSV pipelines, and real data loading from PubChem BioAssay.
 
