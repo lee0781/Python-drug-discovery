@@ -19,12 +19,20 @@ drug sensitivity across cancer types.
    cancer type bar chart
 7. **Export** — saves the cleaned dataset to `venetoclax_clean.csv`
 
+## Data Source
+**GDSC2** (Genomics of Drug Sensitivity in Cancer), Wellcome Sanger Institute  
+Source: https://www.cancerrxgene.org/downloads/bulk_download  
+File: "Drug sensitivity data (fitted dose response)" — full release (242,036 rows)  
+Filtered to: DRUG_NAME == "Venetoclax" (958 experiments across cancer cell lines)  
+*Raw file not included in repo due to size — download from source above.*
+
 ## Dataset
 | Drug | Source | Target | Experiments |
 |---|---|---|---|
 | Venetoclax | GDSC2 (Genomics of Drug Sensitivity in Cancer) | BCL-2 inhibitor | 958 (928 after cleaning) |
 
 ## Output
+
 ==================================================
 GDSC2 Dataset Overview
 ==================================================
