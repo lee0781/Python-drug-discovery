@@ -30,13 +30,15 @@ R², error bars, combination index, heatmap visualization, and dose-response plo
 **Script:** [View Python script](stage2/dose_response_screen.py)  
 **Output:** [View Stage 2 results and figures](stage2/README.md)
 
-### Stage 3 — Pandas + HTS Data Tables 🔄 In progress
+### Stage 3 — Pandas + HTS Data Tables ✅
 
 DataFrames, CSV pipelines, and real data loading from PubChem BioAssay.
 
 **Drug model:** Venetoclax  
 **Biological context:** BCL-2 inhibitor analysis  
-**Cell model:** HL60 leukemia
+
+**Script:** [View Python script](stage3/porfolio_project.py)  
+**Output:** [View Stage 2 results and figures](stage3/README.md)
 
 ### Stage 4 — SciPy + CRISPR Analysis 🚧 Upcoming
 
@@ -58,5 +60,5 @@ Drug sensitivity prediction using scikit-learn on GDSC/CCLE-style datasets.
 
 ## Current Tools
 
-Python | NumPy | SciPy | Matplotlib
+Python | NumPy | SciPy | Matplotlib | Pandas
 
