@@ -71,7 +71,4 @@ plt.show()
 df_clean.to_csv("Stage3/venetoclax_clean.csv", index=False)
 print("\n Cleaned data saved to venetoclax_clean.csv")
 
-git pull --rebase origin main
-git add stage3/
-git commit -m "[Stage 3] Venetoclax GDSC2 analysis — IC50, sensitivity, outlier removal, cancer type comparison"
-git push origin main
+
