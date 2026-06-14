@@ -37,8 +37,8 @@ DataFrames, CSV pipelines, and real data loading from PubChem BioAssay.
 **Drug model:** Venetoclax  
 **Biological context:** BCL-2 inhibitor analysis  
 
-**Script:** [View Python script](stage3/porfolio_project.py)  
-**Output:** [View Stage 2 results and figures](stage3/README.md)
+**Script:** [View Python script](Stage3/porfolio_project.py)  
+**Output:** [View Stage 3 results and figures](stage3/README.md)
 
 ### Stage 4 — SciPy + CRISPR Analysis 🚧 Upcoming
 
