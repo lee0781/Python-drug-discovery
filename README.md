@@ -38,7 +38,6 @@ DataFrames, CSV pipelines, and real data loading from PubChem BioAssay.
 **Biological context:** BCL-2 inhibitor analysis  
 
 **Script:** [View Python script](stage3/portfolio_project.py)
-
 **Output:** [View Stage 3 results and figures](stage3/README.md)
 
 ### Stage 4 — SciPy + CRISPR Analysis 🚧 Upcoming
